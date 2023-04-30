@@ -9,7 +9,7 @@ export const Navbar = () => {
             Logo
           </Link>
           <Link href="/">Dashboard</Link>
-          <Link href="/">Projects</Link>
+          <Link href="/projects">Projects</Link>
         </div>
         <div className="space-x-4">
           <button>John Doe</button>
