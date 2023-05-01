@@ -9,7 +9,7 @@ interface IndexPageProps {
 
 export default async function IndexPage({ params: { id } }: IndexPageProps) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/projects/${id}`,
+    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/projects/${id}`,
     {
       method: "GET",
       cache: "no-store",

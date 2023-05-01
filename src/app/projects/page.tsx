@@ -4,10 +4,13 @@ import { Project } from "@prisma/client";
 import Link from "next/link";
 
 export default async function IndexPage() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/projects`, {
-    method: "GET",
-    cache: "no-store",
-  });
+  const response = await fetch(
+    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/projects`,
+    {
+      method: "GET",
+      cache: "no-store",
+    }
+  );
   const projects: Project[] = await response.json();
 
   return (
