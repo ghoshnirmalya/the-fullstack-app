@@ -1,16 +1,14 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import { buttonVariants } from "@/components/ui/button";
+import { getApiUrl } from "@/lib/get-api-url";
 import { Project } from "@prisma/client";
 import Link from "next/link";
 
 export default async function IndexPage() {
-  const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/projects`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  );
+  const response = await fetch(getApiUrl("api/projects"), {
+    method: "GET",
+    cache: "no-store",
+  });
   const projects: Project[] = await response.json();
 
   return (

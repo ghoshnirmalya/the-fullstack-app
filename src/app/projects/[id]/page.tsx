@@ -1,4 +1,5 @@
 import { ProjectEditForm } from "@/components/ProjectEditForm";
+import { getApiUrl } from "@/lib/get-api-url";
 import { Project } from "@prisma/client";
 
 interface IndexPageProps {
@@ -8,13 +9,10 @@ interface IndexPageProps {
 }
 
 export default async function IndexPage({ params: { id } }: IndexPageProps) {
-  const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/projects/${id}`,
-    {
-      method: "GET",
-      cache: "no-store",
-    }
-  );
+  const response = await fetch(getApiUrl(`api/projects/${id}`), {
+    method: "GET",
+    cache: "no-store",
+  });
   const project: Project = await response.json();
 
   if (!project) {
