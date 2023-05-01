@@ -6,12 +6,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Project } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface ProjectEditFormProps {
   project: Project;
 }
 
 export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
+  const router = useRouter();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -27,6 +30,18 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
           description,
         }),
       });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await fetch(`http://localhost:3000/api/projects/${project.id}`, {
+        method: "DELETE",
+      });
+
+      router.push("/projects");
     } catch (error) {
       console.error(error);
     }
@@ -56,7 +71,12 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
               defaultValue={project.description || ""}
             />
           </div>
-          <Button type="submit">Save</Button>
+          <div className="flex justify-between space-x-4">
+            <Button type="submit">Save</Button>
+            <Button type="button" variant="destructive" onClick={handleDelete}>
+              Delete
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

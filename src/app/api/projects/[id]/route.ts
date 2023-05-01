@@ -53,9 +53,34 @@ export async function PATCH(
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+      return new Response(JSON.stringify(error.issues), {
+        status: 422,
+      });
     }
 
+    return new Response(null, {
+      status: 500,
+    });
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  context: z.infer<typeof routeContextSchema>
+) {
+  try {
+    const { params } = routeContextSchema.parse(context);
+
+    await prisma.project.delete({
+      where: {
+        id: Number(params.id),
+      },
+    });
+
+    return new Response(null, {
+      status: 202,
+    });
+  } catch (error) {
     return new Response(null, {
       status: 500,
     });

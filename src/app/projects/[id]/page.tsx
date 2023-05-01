@@ -14,7 +14,7 @@ export default async function IndexPage({ params: { id } }: IndexPageProps) {
   const project: Project = await response.json();
 
   if (!project) {
-    return <div>Project not found</div>;
+    return <div className="p-4">Project not found</div>;
   }
 
   return (
