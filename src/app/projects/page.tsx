@@ -4,7 +4,7 @@ import { Project } from "@prisma/client";
 import Link from "next/link";
 
 export default async function IndexPage() {
-  const response = await fetch(`${process.env.API_URL}/api/projects`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/projects`, {
     method: "GET",
     cache: "no-store",
   });
