@@ -1,12 +1,18 @@
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 
 import { z } from "zod";
 
 export async function GET() {
   try {
+    const session = await getServerSession(authOptions);
+
+    console.log(session);
+
     const projects = await prisma.project.findMany({
       where: {
-        creatorId: 1,
+        creatorId: "1",
       },
     });
 
@@ -26,7 +32,7 @@ export async function POST(request: Request) {
       data: {
         title,
         description,
-        creatorId: 1,
+        creatorId: "1",
       },
     });
 
