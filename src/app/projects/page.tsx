@@ -2,7 +2,10 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { buttonVariants } from "@/components/ui/button";
 import { getApiUrl } from "@/lib/get-api-url";
 import { Project } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 export default async function IndexPage() {
   const response = await fetch(getApiUrl("api/projects"), {
@@ -10,6 +13,12 @@ export default async function IndexPage() {
     cache: "no-store",
   });
   const projects: Project[] = await response.json();
+
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
 
   return (
     <div className="p-4 space-y-4 container mx-auto">

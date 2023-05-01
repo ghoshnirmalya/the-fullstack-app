@@ -1,6 +1,7 @@
 import "@/styles/tailwind.css";
 import { Inter } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
+import { NextAuthProvider } from "@/app/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Navbar />
-        {children}
+        <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>
   );
