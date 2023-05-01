@@ -1,22 +1,19 @@
-import { ProjectCard } from "@/app/components/ProjectCard";
-import { prisma } from "@/app/utils/prisma";
+import { ProjectCard } from "@/components/ProjectCard";
+import { buttonVariants } from "@/components/ui/button";
+import { Project } from "@prisma/client";
 import Link from "next/link";
 
 export default async function IndexPage() {
-  const projects = await prisma.project.findMany({
-    where: {
-      creatorId: 1,
-    },
+  const response = await fetch("http://localhost:3000/api/projects", {
+    method: "GET",
   });
+  const projects: Project[] = await response.json();
 
   return (
     <div className="p-4 space-y-4 container mx-auto">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Projects</h1>
-        <Link
-          href="/projects/new"
-          className="border bg-gray-50 px-4 py-2 rounded"
-        >
+        <Link href="/projects/new" className={buttonVariants({})}>
           Add project
         </Link>
       </div>

@@ -1,30 +1,47 @@
-import { prisma } from "@/app/utils/prisma";
+import { prisma } from "@/lib/prisma";
 
-import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function GET() {
-  const projects = await prisma.project.findMany({
-    where: {
-      creatorId: 1,
-    },
-  });
+  try {
+    const projects = await prisma.project.findMany({
+      where: {
+        creatorId: 1,
+      },
+    });
 
-  return NextResponse.json({
-    projects,
-  });
+    return new Response(JSON.stringify(projects));
+  } catch (error) {
+    return new Response(null, {
+      status: 500,
+    });
+  }
 }
 
 export async function POST(request: Request) {
-  const { title } = await request.json();
+  try {
+    const { title, description } = await request.json();
 
-  const project = await prisma.project.create({
-    data: {
-      title,
-      creatorId: 1,
-    },
-  });
+    const project = await prisma.project.create({
+      data: {
+        title,
+        description,
+        creatorId: 1,
+      },
+    });
 
-  return NextResponse.json({
-    project,
-  });
+    return new Response(JSON.stringify(project), {
+      status: 201,
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), {
+        status: 422,
+      });
+    }
+
+    return new Response(null, {
+      status: 500,
+    });
+  }
 }

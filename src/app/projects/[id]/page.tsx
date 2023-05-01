@@ -1,4 +1,5 @@
-import { prisma } from "@/app/utils/prisma";
+import { ProjectEditForm } from "@/components/ProjectEditForm";
+import { Project } from "@prisma/client";
 
 interface IndexPageProps {
   params: {
@@ -7,11 +8,10 @@ interface IndexPageProps {
 }
 
 export default async function IndexPage({ params: { id } }: IndexPageProps) {
-  const project = await prisma.project.findUnique({
-    where: {
-      id: Number(id),
-    },
+  const response = await fetch(`http://localhost:3000/api/projects/${id}`, {
+    method: "GET",
   });
+  const project: Project = await response.json();
 
   if (!project) {
     return <div>Project not found</div>;
@@ -19,8 +19,9 @@ export default async function IndexPage({ params: { id } }: IndexPageProps) {
 
   return (
     <div className="p-4 space-y-4 container mx-auto">
-      <h1 className="text-2xl font-bold">{project.title}</h1>
-      <p className="text-sm">{project?.description}</p>
+      <div className="w-full md:w-1/2">
+        <ProjectEditForm project={project} />
+      </div>
     </div>
   );
 }
