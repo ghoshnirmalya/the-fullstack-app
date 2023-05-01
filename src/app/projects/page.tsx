@@ -4,7 +4,7 @@ import { getApiUrl } from "@/lib/get-api-url";
 import { Project } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function ProjectIndexPage() {

@@ -1,4 +1,4 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import { SignInButton } from "@/components/Navbar/SignInButton";
 import { UserDetails } from "@/components/Navbar/UserDetails";
 import { getServerSession } from "next-auth";
