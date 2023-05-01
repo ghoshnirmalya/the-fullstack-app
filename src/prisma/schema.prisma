@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
@@ -21,4 +22,6 @@ model Project {
   published   Boolean @default(false)
   creatorId   Int
   creator     User    @relation(fields: [creatorId], references: [id])
+
+  @@index([creatorId])
 }

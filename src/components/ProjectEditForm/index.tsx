@@ -54,7 +54,7 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
     setIsDeleting(true);
 
     try {
-      await fetch(`http://localhost:3000/api/projects/${project.id}`, {
+      await fetch(`/api/projects/${project.id}`, {
         method: "DELETE",
       });
 

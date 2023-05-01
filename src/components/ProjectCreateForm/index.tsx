@@ -24,7 +24,7 @@ export const ProjectCreateForm = () => {
     const description = formData.get("description") as string;
 
     try {
-      const response = await fetch("http://localhost:3000/api/projects", {
+      const response = await fetch("/api/projects", {
         method: "POST",
         body: JSON.stringify({
           title,
