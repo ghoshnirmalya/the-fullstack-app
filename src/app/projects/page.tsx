@@ -6,6 +6,7 @@ import Link from "next/link";
 export default async function IndexPage() {
   const response = await fetch("http://localhost:3000/api/projects", {
     method: "GET",
+    cache: "no-store",
   });
   const projects: Project[] = await response.json();
 

@@ -10,6 +10,7 @@ interface IndexPageProps {
 export default async function IndexPage({ params: { id } }: IndexPageProps) {
   const response = await fetch(`http://localhost:3000/api/projects/${id}`, {
     method: "GET",
+    cache: "no-store",
   });
   const project: Project = await response.json();
 
