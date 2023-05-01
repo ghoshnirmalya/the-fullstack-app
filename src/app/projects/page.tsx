@@ -7,7 +7,7 @@ import Link from "next/link";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 
-export default async function IndexPage() {
+export default async function ProjectIndexPage() {
   const response = await fetch(getApiUrl("api/projects"), {
     method: "GET",
     cache: "no-store",
