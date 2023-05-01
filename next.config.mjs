@@ -1,5 +1,7 @@
+import "./src/lib/env.mjs";
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const config = {
   experimental: {
     appDir: true,
     serverComponentsExternalPackages: ["@prisma/client", "bcryptjs"],
@@ -14,4 +16,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default config;
