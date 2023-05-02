@@ -9,7 +9,7 @@ export const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col space-y-4 border-r p-4 h-full w-full text-sm">
+    <div className="flex flex-col space-y-2 border-r p-4 h-full w-full text-sm">
       <Link
         href="/dashboard"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
