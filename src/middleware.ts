@@ -8,11 +8,13 @@ export default withAuth(
       req,
     });
     const isAuth = !!token;
-    const isAuthPage = req.nextUrl.pathname.startsWith("/sign-in");
+    const isAuthPage =
+      req.nextUrl.pathname.startsWith("/sign-in") ||
+      req.nextUrl.pathname === "/";
 
     if (isAuthPage) {
       if (isAuth) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
       }
 
       return null;
@@ -43,5 +45,10 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/projects/:path*", "/sign-in"],
+  matcher: [
+    "/admin/dashboard/:path*",
+    "/admin/projects/:path*",
+    "/sign-in",
+    "/",
+  ],
 };
