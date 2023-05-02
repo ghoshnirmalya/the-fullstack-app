@@ -11,36 +11,36 @@ export const Sidebar = () => {
   return (
     <div className="flex flex-col space-y-4 border-r p-4 h-full w-full text-sm">
       <Link
-        href="/admin/dashboard"
+        href="/dashboard"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname === "/admin/dashboard",
+          "bg-gray-100 rounded": pathname === "/dashboard",
         })}
       >
         <LayoutDashboard className="w-6 h-6" />{" "}
         <span className="hidden lg:block">Dashboard</span>
       </Link>
       <Link
-        href="/admin/projects"
+        href="/projects"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname === "/admin/projects",
+          "bg-gray-100 rounded": pathname === "/projects",
         })}
       >
         <FolderGit2 className="w-6 h-6" />{" "}
         <span className="hidden lg:block">Projects</span>
       </Link>
       <Link
-        href="/admin/forums"
+        href="/forums"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname === "/admin/forums",
+          "bg-gray-100 rounded": pathname === "/forums",
         })}
       >
         <Newspaper className="w-6 h-6" />{" "}
         <span className="hidden lg:block">Forums</span>
       </Link>
       <Link
-        href="/admin/blogs"
+        href="/blogs"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname === "/admin/blogs",
+          "bg-gray-100 rounded": pathname === "/blogs",
         })}
       >
         <BookOpen className="w-6 h-6" />{" "}

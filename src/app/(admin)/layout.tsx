@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/Navbar";
+import { Sidebar } from "@/components/Sidebar";
 import { AuthProvider } from "@/services/auth-provider";
 import "@/styles/tailwind.css";
 import { Inter } from "next/font/google";
@@ -17,10 +18,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} h-screen`}>
-        {/* @ts-expect-error Async Server Component */}
-        <Navbar />
-        <AuthProvider>{children}</AuthProvider>
+      <body className={`${inter.className} h-screen flex flex-col`}>
+        <AuthProvider>
+          {/* @ts-expect-error Async Server Component */}
+          <Navbar />
+          <div className="flex flex-1">
+            <aside className="lg:w-1/5">
+              <Sidebar />
+            </aside>
+            <main className="w-full lg:w-4/5">{children}</main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

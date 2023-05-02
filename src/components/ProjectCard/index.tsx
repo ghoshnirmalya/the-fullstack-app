@@ -13,7 +13,7 @@ interface ProjectCardProps {
 
 export const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <Link href={`/admin/projects/${project.id}`}>
+    <Link href={`/projects/${project.id}`}>
       <Card>
         <CardHeader>
           <CardTitle>{project.title}</CardTitle>
