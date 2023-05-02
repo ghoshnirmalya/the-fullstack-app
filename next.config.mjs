@@ -4,7 +4,6 @@ import "./src/lib/env.mjs";
 const config = {
   experimental: {
     appDir: true,
-    serverComponentsExternalPackages: ["@prisma/client", "bcryptjs"],
   },
   images: {
     remotePatterns: [

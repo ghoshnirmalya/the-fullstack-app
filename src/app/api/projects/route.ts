@@ -8,11 +8,15 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
-    console.log(session);
+    if (!session) {
+      return new Response("Unauthorized", {
+        status: 403,
+      });
+    }
 
     const projects = await prisma.project.findMany({
       where: {
-        creatorId: "1",
+        creatorId: session.user.id,
       },
     });
 
@@ -26,13 +30,21 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new Response("Unauthorized", {
+        status: 403,
+      });
+    }
+
     const { title, description } = await request.json();
 
     const project = await prisma.project.create({
       data: {
         title,
         description,
-        creatorId: "1",
+        creatorId: session.user.id,
       },
     });
 

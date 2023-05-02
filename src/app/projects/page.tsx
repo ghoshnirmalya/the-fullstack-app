@@ -6,17 +6,17 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export default async function ProjectIndexPage() {
   const response = await fetch(getApiUrl("api/projects"), {
     method: "GET",
     cache: "no-store",
+    headers: headers() as HeadersInit,
   });
   const projects: Project[] = await response.json();
 
   const session = await getServerSession(authOptions);
-
-  console.log(session);
 
   if (!session) {
     redirect("/api/auth/signin");
