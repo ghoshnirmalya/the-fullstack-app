@@ -2,6 +2,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { buttonVariants } from "@/components/ui/button";
 import { getApiUrl } from "@/lib/get-api-url";
 import { Project } from "@prisma/client";
+import { PlusCircle } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ export default async function ProjectIndexPage() {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Projects</h1>
         <Link href="/projects/new" className={buttonVariants({})}>
-          Add project
+          <PlusCircle className="mr-2 h-4 w-4" /> Add project
         </Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

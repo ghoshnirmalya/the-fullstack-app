@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { notFound } from "next/navigation";
 
 interface IndexPageProps {
   params: {
@@ -27,7 +28,7 @@ export default async function ProjectShowPage({
   const project: Project = await response.json();
 
   if (!project) {
-    return <div className="p-4">Project not found</div>;
+    return notFound();
   }
 
   return (
