@@ -4,6 +4,12 @@ import { Forum } from "@prisma/client";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
+export const metadata = {
+  title: "Forums | the-fullstack-app",
+  description:
+    "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
+};
+
 export default async function ForumIndexPage() {
   const response = await fetch(getApiUrl("api/forums"), {
     headers: headers() as HeadersInit,

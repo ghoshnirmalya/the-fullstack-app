@@ -5,6 +5,17 @@ import { cn } from "@/lib/tailwind-utils";
 import { getServerSession } from "next-auth/next";
 import Link from "next/link";
 
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export const metadata = {
+  title: "the-fullstack-app",
+  description:
+    "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
+};
+
 export default async function IndexPage() {
   const session = await getServerSession(authOptions);
 

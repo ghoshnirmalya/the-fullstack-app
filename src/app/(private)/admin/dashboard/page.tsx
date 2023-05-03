@@ -1,11 +1,15 @@
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
+export const metadata = {
+  title: "Dashboard | the-fullstack-app",
+  description:
+    "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
+};
 
 export default async function DashboardPage() {
   return (
