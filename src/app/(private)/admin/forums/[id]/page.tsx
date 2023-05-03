@@ -23,7 +23,7 @@ export async function generateMetadata({
 
   if (!response.ok) {
     return {
-      title: "Forum not found | the-fullstack-app",
+      title: "Forum not found | Admin | the-fullstack-app",
       description:
         "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
     };
@@ -37,14 +37,14 @@ export async function generateMetadata({
 
   if (!forum) {
     return {
-      title: "Forum not found | the-fullstack-app",
+      title: "Forum not found | Admin | the-fullstack-app",
       description:
         "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
     };
   }
 
   return {
-    title: `${forum.title} | the-fullstack-app`,
+    title: `${forum.title} | Admin | the-fullstack-app`,
     description: forum.description,
   };
 }
@@ -73,8 +73,8 @@ export default async function ForumShowPage({
   }
 
   return (
-    <div className="p-4 gap-4">
-      <div className="w-full xl:w-1/2 mx-auto">
+    <div className="p-4">
+      <div className="w-full">
         <ForumEditForm forum={forum} />
       </div>
     </div>

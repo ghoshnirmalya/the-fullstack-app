@@ -7,7 +7,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Forums | the-fullstack-app",
+  title: "Admin | the-fullstack-app",
   description:
     "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
 };
@@ -28,7 +28,7 @@ export default function RootLayout({
               <Sidebar />
             </aside>
             <main className="w-[calc(100vw-73px)] lg:w-[calc(100vw-250px)] overflow-y-scroll relative left-[73px] lg:left-[250px] top-[65px] h-[calc(100vh-73px)]">
-              {children}
+              <div className="max-w-4xl mx-auto h-full">{children}</div>
             </main>
           </div>
         </AuthProvider>

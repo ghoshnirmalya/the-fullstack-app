@@ -16,7 +16,7 @@ export const SidebarLinks = () => {
           "bg-muted rounded": pathname === "/",
         })}
       >
-        <Home className="w-6 h-6" />
+        <Home className="w-4 h-4" />
         <span className="hidden lg:block">Home</span>
       </Link>
       <Link
@@ -25,7 +25,7 @@ export const SidebarLinks = () => {
           "bg-muted rounded": pathname.startsWith("/forums"),
         })}
       >
-        <Newspaper className="w-6 h-6" />
+        <Newspaper className="w-4 h-4" />
         <span className="hidden lg:block">Forums</span>
       </Link>
     </>

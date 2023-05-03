@@ -28,7 +28,7 @@ export default async function ForumIndexPage() {
   return (
     <div className="p-4 space-y-4 container mx-auto">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Forums</h1>
+        <h1 className="text-2xl">Forums</h1>
       </div>
       <div className="space-y-4">
         {forums.map((forum) => {

@@ -59,7 +59,7 @@ export const ForumCreateForm = () => {
         <CardTitle>Add new forum</CardTitle>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4" onSubmit={handleSubmit}>
+        <form className="space-y-8" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input

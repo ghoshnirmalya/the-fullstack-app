@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <div className="p-4 space-y-4 container mx-auto h-full">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Forums</h1>
+        <h1 className="text-2xl">Forums</h1>
         <Link href="/admin/forums/new" className={buttonVariants({})}>
           <PlusCircle className="mr-2 h-4 w-4" /> Add forum
         </Link>

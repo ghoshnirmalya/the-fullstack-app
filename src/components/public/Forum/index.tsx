@@ -1,6 +1,6 @@
 import { ForumCommentCreateForm } from "@/components/public/Forum/ForumCommentCreateForm";
+import { ForumComments } from "@/components/public/Forum/ForumComments";
 import { ForumComment, Forum as ForumEntity } from "@prisma/client";
-import { ForumCommentCard } from "@/components/public/Forum/ForumCommentCard";
 
 interface ForumProps {
   forum: ForumEntity & {
@@ -16,11 +16,7 @@ export const Forum = ({ forum }: ForumProps) => {
         <p className="text-gray-600">{forum.description}</p>
       </div>
       <ForumCommentCreateForm forum={forum} />
-      <div className="space-y-4">
-        {forum.comments.reverse().map((comment) => {
-          return <ForumCommentCard forumComment={comment} key={comment.id} />;
-        })}
-      </div>
+      <ForumComments forum={forum} />
     </div>
   );
 };

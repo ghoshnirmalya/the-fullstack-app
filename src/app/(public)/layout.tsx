@@ -28,7 +28,7 @@ export default function RootLayout({
               <Sidebar />
             </aside>
             <main className="w-[calc(100vw-73px)] lg:w-[calc(100vw-250px)] overflow-y-scroll relative left-[73px] lg:left-[250px] top-[65px] h-[calc(100vh-73px)]">
-              {children}
+              <div className="max-w-4xl mx-auto h-full">{children}</div>
             </main>
           </div>
         </AuthProvider>

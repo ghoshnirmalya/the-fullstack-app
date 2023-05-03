@@ -77,8 +77,8 @@ export default async function ForumShowPage({
   }
 
   return (
-    <div className="p-4 gap-4">
-      <div className="w-full xl:w-1/2 mx-auto">
+    <div className="p-4">
+      <div className="w-full">
         <Forum forum={forum} />
       </div>
     </div>
