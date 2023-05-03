@@ -12,10 +12,16 @@ export default withAuth(
 
     if (isAuthPage) {
       if (isAuth) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
+        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
       }
 
       return null;
+    }
+
+    if (!isAuth) {
+      if (req.nextUrl.pathname.startsWith("/admin")) {
+        return NextResponse.redirect(new URL(`/authentication`, req.url));
+      }
     }
   },
   {
