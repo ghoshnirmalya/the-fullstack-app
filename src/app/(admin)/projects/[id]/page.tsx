@@ -23,8 +23,6 @@ export default async function ProjectShowPage({
   params: { id },
 }: IndexPageProps) {
   const response = await fetch(getApiUrl(`api/projects/${id}`), {
-    method: "GET",
-    cache: "no-store",
     headers: headers() as HeadersInit,
   });
 

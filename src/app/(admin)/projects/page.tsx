@@ -5,14 +5,22 @@ import { Project } from "@prisma/client";
 import { PlusCircle } from "lucide-react";
 import { headers } from "next/headers";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 export default async function ProjectIndexPage() {
   const response = await fetch(getApiUrl("api/projects"), {
-    method: "GET",
-    cache: "no-store",
     headers: headers() as HeadersInit,
   });
+
+  if (!response.ok) {
+    return notFound();
+  }
+
   const projects: Project[] = await response.json();
+
+  if (!projects.length) {
+    return notFound();
+  }
 
   return (
     <div className="p-4 space-y-4 container mx-auto">

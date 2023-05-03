@@ -1,6 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import { NextResponse } from "next/server";
 
 import { z } from "zod";
 
@@ -14,8 +15,8 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new Response("Unauthorized", {
-        status: 403,
+      return new NextResponse(null, {
+        status: 401,
       });
     }
 
@@ -25,9 +26,9 @@ export async function GET() {
       },
     });
 
-    return new Response(JSON.stringify(projects));
+    return new NextResponse(JSON.stringify(projects));
   } catch (error) {
-    return new Response(null, {
+    return new NextResponse(null, {
       status: 500,
     });
   }
@@ -38,8 +39,8 @@ export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new Response("Unauthorized", {
-        status: 403,
+      return new NextResponse(null, {
+        status: 401,
       });
     }
 
@@ -54,17 +55,17 @@ export async function POST(request: Request) {
       },
     });
 
-    return new Response(JSON.stringify(project), {
+    return new NextResponse(JSON.stringify(project), {
       status: 201,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), {
+      return new NextResponse(JSON.stringify(error.issues), {
         status: 422,
       });
     }
 
-    return new Response(null, {
+    return new NextResponse(null, {
       status: 500,
     });
   }
