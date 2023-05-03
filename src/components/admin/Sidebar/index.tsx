@@ -2,7 +2,7 @@ import { SidebarLinks } from "@/components/admin/Sidebar/SidebarLinks";
 
 export const Sidebar = () => {
   return (
-    <div className="flex flex-col space-y-2 border-r p-4 h-full w-full text-sm">
+    <div className="flex flex-col space-y-2 border-r p-4 h-full w-full text-sm bg-white">
       <SidebarLinks />
     </div>
   );

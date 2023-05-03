@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/tailwind-utils";
-import { BookOpen, LayoutDashboard, Newspaper } from "lucide-react";
+import { LayoutDashboard, Newspaper } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -27,15 +27,6 @@ export const SidebarLinks = () => {
       >
         <Newspaper className="w-6 h-6" />
         <span className="hidden lg:block">Forums</span>
-      </Link>
-      <Link
-        href="/admin/blogs"
-        className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-muted rounded": pathname.startsWith("/admin/blogs"),
-        })}
-      >
-        <BookOpen className="w-6 h-6" />
-        <span className="hidden lg:block">Blogs</span>
       </Link>
     </>
   );

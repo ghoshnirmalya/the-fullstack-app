@@ -13,7 +13,7 @@ interface ForumCardProps {
 
 export const ForumCard = ({ forum }: ForumCardProps) => {
   return (
-    <Link href={`/admin/forums/${forum.id}`}>
+    <Link href={`/forums/${forum.id}`} className="block">
       <Card>
         <CardHeader>
           <CardTitle>{forum.title}</CardTitle>

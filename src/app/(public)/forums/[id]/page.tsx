@@ -1,6 +1,6 @@
-import { ForumEditForm } from "@/components/admin/ForumEditForm";
+import { Forum } from "@/components/public/Forum";
 import { getApiUrl } from "@/lib/get-api-url";
-import { Forum } from "@prisma/client";
+import { ForumComment, Forum as ForumEntity } from "@prisma/client";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -21,16 +21,20 @@ export default async function ForumShowPage({
     return notFound();
   }
 
-  const forum: Forum = await response.json();
+  const forum:
+    | (ForumEntity & {
+        comments: ForumComment[];
+      })
+    | null = await response.json();
 
   if (!forum) {
     return notFound();
   }
 
   return (
-    <div className="p-4 gap-4 container mx-auto flex flex-col lg:flex-row">
-      <div className="w-full lg:w-1/2">
-        <ForumEditForm forum={forum} />
+    <div className="p-4 gap-4">
+      <div className="w-full xl:w-1/2 mx-auto">
+        <Forum forum={forum} />
       </div>
     </div>
   );

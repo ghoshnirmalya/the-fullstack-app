@@ -26,9 +26,6 @@ export async function GET(
       where: {
         id: Number(params.id),
       },
-      include: {
-        comments: true,
-      },
     });
 
     return new NextResponse(JSON.stringify(forum), {

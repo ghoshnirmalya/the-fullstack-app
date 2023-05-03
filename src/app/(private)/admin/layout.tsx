@@ -18,15 +18,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
+      <body className={`${inter.className} h-screen flex flex-col bg-gray-50`}>
         <AuthProvider>
           {/* @ts-expect-error Async Server Component */}
           <Navbar />
-          <div className="flex flex-1">
-            <aside className="lg:w-1/5">
+          <div className="flex flex-1 relative">
+            <aside className="w-auto lg:w-[250px] h-full fixed top-[65px]">
               <Sidebar />
             </aside>
-            <main className="w-full lg:w-4/5">{children}</main>
+            <main className="w-[calc(100vw-73px)] lg:w-[calc(100vw-250px)] overflow-y-scroll relative left-[73px] lg:left-[250px] top-[65px]">
+              {children}
+            </main>
           </div>
         </AuthProvider>
       </body>

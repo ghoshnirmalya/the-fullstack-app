@@ -1,4 +1,4 @@
-import { ForumCard } from "@/components/admin/ForumCard";
+import { ForumCard } from "@/components/public/Forum/ForumCard";
 import { getApiUrl } from "@/lib/get-api-url";
 import { Forum } from "@prisma/client";
 import { headers } from "next/headers";

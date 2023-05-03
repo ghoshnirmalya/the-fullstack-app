@@ -52,9 +52,11 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
-  forums  Forum[]
-  Account Account[]
-  Session Session[]
+  forums            Forum[]
+  Account           Account[]
+  Session           Session[]
+  ForumComment      ForumComment[]
+  ForumCommentReply ForumCommentReply[]
 
   @@map(name: "users")
 }
@@ -77,8 +79,42 @@ model Forum {
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
   creatorId   String
 
-  author User @relation(fields: [creatorId], references: [id])
+  author   User           @relation(fields: [creatorId], references: [id])
+  comments ForumComment[]
 
   @@index([creatorId])
   @@map(name: "forums")
+}
+
+model ForumComment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  forumId   Int
+  authorId  String
+
+  forum             Forum               @relation(fields: [forumId], references: [id])
+  author            User                @relation(fields: [authorId], references: [id])
+  forumCommentReply ForumCommentReply[]
+
+  @@index([forumId])
+  @@index([authorId])
+  @@map(name: "forum_comments")
+}
+
+model ForumCommentReply {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  commentId Int
+  authorId  String
+
+  comments ForumComment @relation(fields: [commentId], references: [id])
+  author   User         @relation(fields: [authorId], references: [id])
+
+  @@index([commentId])
+  @@index([authorId])
+  @@map(name: "forum_comment_replies")
 }

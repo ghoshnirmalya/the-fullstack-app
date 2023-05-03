@@ -2,8 +2,8 @@ import { ForumCreateForm } from "@/components/admin/ForumCreateForm";
 
 export default async function ForumCreatePage() {
   return (
-    <div className="p-4 space-y-4 container mx-auto">
-      <div className="w-full md:w-1/2">
+    <div className="p-4 gap-4">
+      <div className="w-full xl:w-1/2 mx-auto">
         <ForumCreateForm />
       </div>
     </div>

@@ -28,8 +28,8 @@ export default async function ForumShowPage({
   }
 
   return (
-    <div className="p-4 gap-4 container mx-auto flex flex-col lg:flex-row">
-      <div className="w-full lg:w-1/2">
+    <div className="p-4 gap-4">
+      <div className="w-full xl:w-1/2 mx-auto">
         <ForumEditForm forum={forum} />
       </div>
     </div>

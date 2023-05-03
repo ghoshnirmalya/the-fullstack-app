@@ -9,7 +9,7 @@ export const Navbar = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="border-b text-sm">
+    <nav className="border-b text-sm fixed w-full bg-white z-10">
       <div className="px-4 h-16 mx-auto flex items-center justify-between">
         <div className="space-x-8 flex items-center">
           <Link href="/" className="font-bold space-x-2 flex items-center">
@@ -20,6 +20,6 @@ export const Navbar = async () => {
           {session ? <UserDetails session={session} /> : <SignInButton />}
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
