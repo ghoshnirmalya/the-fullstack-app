@@ -8,9 +8,7 @@ export default withAuth(
       req,
     });
     const isAuth = !!token;
-    const isAuthPage =
-      req.nextUrl.pathname.startsWith("/sign-in") ||
-      req.nextUrl.pathname === "/";
+    const isAuthPage = req.nextUrl.pathname.startsWith("/authentication");
 
     if (isAuthPage) {
       if (isAuth) {
@@ -18,18 +16,6 @@ export default withAuth(
       }
 
       return null;
-    }
-
-    if (!isAuth) {
-      let from = req.nextUrl.pathname;
-
-      if (req.nextUrl.search) {
-        from += req.nextUrl.search;
-      }
-
-      return NextResponse.redirect(
-        new URL(`/sign-in?from=${encodeURIComponent(from)}`, req.url)
-      );
     }
   },
   {
@@ -45,5 +31,14 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/projects/:path*", "/sign-in", "/"],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

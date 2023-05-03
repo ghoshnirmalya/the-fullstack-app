@@ -5,7 +5,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Alice",
     email: "alice@prisma.io",
-    projects: {
+    forums: {
       create: [
         {
           title: "Join the Prisma Slack",
@@ -23,7 +23,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: "Bob",
     email: "bob@prisma.io",
-    projects: {
+    forums: {
       create: [
         {
           title: "Follow Prisma on Twitter",
