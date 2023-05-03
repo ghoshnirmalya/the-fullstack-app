@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Project } from "@prisma/client";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
@@ -16,14 +17,14 @@ interface ProjectEditFormProps {
 export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [isFetching, setIsFetching] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const isMutating = isFetching || isPending || isDeleting;
+  const isMutating = isSaving || isPending || isDeleting;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setIsFetching(true);
+    setIsSaving(true);
 
     const formData = new FormData(event.currentTarget);
     const title = formData.get("title") as string;
@@ -38,7 +39,7 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
         }),
       });
 
-      setIsFetching(false);
+      setIsSaving(false);
 
       startTransition(() => {
         router.refresh();
@@ -46,7 +47,7 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsFetching(false);
+      setIsSaving(false);
     }
   };
 
@@ -83,7 +84,11 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
               name="title"
               defaultValue={project.title}
               disabled={isPending}
+              required
             />
+            <p className="text-sm text-muted-foreground">
+              Title should be more than 4 characters.
+            </p>
           </div>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="description">Description</Label>
@@ -95,7 +100,8 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
             />
           </div>
           <div className="flex justify-between space-x-4">
-            <Button type="submit" disabled={isMutating}>
+            <Button type="submit" disabled={isMutating} className="w-4/5">
+              {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save
             </Button>
             <Button
@@ -103,7 +109,9 @@ export const ProjectEditForm = ({ project }: ProjectEditFormProps) => {
               variant="destructive"
               onClick={handleDelete}
               disabled={isMutating}
+              className="w-1/5"
             >
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Delete
             </Button>
           </div>

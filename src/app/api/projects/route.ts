@@ -4,6 +4,11 @@ import { getServerSession } from "next-auth";
 
 import { z } from "zod";
 
+const projectCreateSchema = z.object({
+  title: z.string().min(5),
+  description: z.string().optional(),
+});
+
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
@@ -38,7 +43,8 @@ export async function POST(request: Request) {
       });
     }
 
-    const { title, description } = await request.json();
+    const json = await request.json();
+    const { title, description } = projectCreateSchema.parse(json);
 
     const project = await prisma.project.create({
       data: {

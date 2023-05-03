@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 
 interface IndexPageProps {
   params: {
@@ -24,7 +25,13 @@ export default async function ProjectShowPage({
   const response = await fetch(getApiUrl(`api/projects/${id}`), {
     method: "GET",
     cache: "no-store",
+    headers: headers() as HeadersInit,
   });
+
+  if (!response.ok) {
+    return notFound();
+  }
+
   const project: Project = await response.json();
 
   if (!project) {

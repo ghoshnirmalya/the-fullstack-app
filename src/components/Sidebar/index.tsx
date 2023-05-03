@@ -13,7 +13,7 @@ export const Sidebar = () => {
       <Link
         href="/dashboard"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname === "/dashboard",
+          "bg-muted rounded": pathname === "/dashboard",
         })}
       >
         <LayoutDashboard className="w-6 h-6" />{" "}
@@ -22,7 +22,7 @@ export const Sidebar = () => {
       <Link
         href="/projects"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname.startsWith("/projects"),
+          "bg-muted rounded": pathname.startsWith("/projects"),
         })}
       >
         <FolderGit2 className="w-6 h-6" />{" "}
@@ -31,7 +31,7 @@ export const Sidebar = () => {
       <Link
         href="/forums"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname.startsWith("/forums"),
+          "bg-muted rounded": pathname.startsWith("/forums"),
         })}
       >
         <Newspaper className="w-6 h-6" />{" "}
@@ -40,7 +40,7 @@ export const Sidebar = () => {
       <Link
         href="/blogs"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-gray-100 rounded": pathname.startsWith("/blogs"),
+          "bg-muted rounded": pathname.startsWith("/blogs"),
         })}
       >
         <BookOpen className="w-6 h-6" />{" "}

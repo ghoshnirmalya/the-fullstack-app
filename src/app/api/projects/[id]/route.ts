@@ -1,18 +1,33 @@
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import { z } from "zod";
 
-const routeContextSchema = z.object({
+const projectReadSchema = z.object({
   params: z.object({
     id: z.string(),
   }),
 });
 
+const projectUpdateSchema = z.object({
+  title: z.string().min(5),
+  description: z.string().optional(),
+});
+
 export async function GET(
   request: Request,
-  context: z.infer<typeof routeContextSchema>
+  context: z.infer<typeof projectReadSchema>
 ) {
   try {
-    const { params } = routeContextSchema.parse(context);
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new Response("Unauthorized", {
+        status: 403,
+      });
+    }
+
+    const { params } = projectReadSchema.parse(context);
 
     const project = await prisma.project.findUnique({
       where: {
@@ -32,11 +47,20 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  context: z.infer<typeof routeContextSchema>
+  context: z.infer<typeof projectReadSchema>
 ) {
   try {
-    const { params } = routeContextSchema.parse(context);
-    const { title, description } = await request.json();
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new Response("Unauthorized", {
+        status: 403,
+      });
+    }
+
+    const { params } = projectReadSchema.parse(context);
+    const json = await request.json();
+    const { title, description } = projectUpdateSchema.parse(json);
 
     const project = await prisma.project.update({
       where: {
@@ -66,10 +90,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  context: z.infer<typeof routeContextSchema>
+  context: z.infer<typeof projectReadSchema>
 ) {
   try {
-    const { params } = routeContextSchema.parse(context);
+    const { params } = projectReadSchema.parse(context);
 
     await prisma.project.delete({
       where: {

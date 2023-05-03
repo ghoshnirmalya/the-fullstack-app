@@ -8,6 +8,7 @@ export const env = createEnv({
     NEXTAUTH_URL: z.string().url().optional(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
+    NODE_ENV: z.enum(["development", "test", "production"]),
   },
   client: {
     NEXT_PUBLIC_VERCEL_URL: z.string(),
@@ -19,5 +20,6 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    NODE_ENV: process.env.NODE_ENV,
   },
 });

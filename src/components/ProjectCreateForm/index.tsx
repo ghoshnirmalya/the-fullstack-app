@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
@@ -31,15 +32,20 @@ export const ProjectCreateForm = () => {
           description,
         }),
       });
-      const project = await response.json();
 
-      setIsFetching(false);
+      if (response.ok) {
+        const project = await response.json();
 
-      startTransition(() => {
-        router.refresh();
+        setIsFetching(false);
 
-        router.push(`/projects/${project.id}`);
-      });
+        startTransition(() => {
+          router.refresh();
+
+          router.push(`/projects/${project.id}`);
+        });
+      } else {
+        throw new Error("Something went wrong");
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,7 +62,16 @@ export const ProjectCreateForm = () => {
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="title">Title</Label>
-            <Input type="text" id="title" name="title" disabled={isPending} />
+            <Input
+              type="text"
+              id="title"
+              name="title"
+              disabled={isPending}
+              required
+            />
+            <p className="text-sm text-muted-foreground">
+              Title should be more than 4 characters.
+            </p>
           </div>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="description">Description</Label>
@@ -66,7 +81,8 @@ export const ProjectCreateForm = () => {
               disabled={isPending}
             />
           </div>
-          <Button type="submit" disabled={isMutating}>
+          <Button type="submit" disabled={isMutating} className="w-full">
+            {isMutating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Save
           </Button>
         </form>
