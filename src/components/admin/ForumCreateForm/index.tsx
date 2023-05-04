@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -56,7 +62,10 @@ export const ForumCreateForm = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Add new forum</CardTitle>
+        <CardTitle>New forum</CardTitle>
+        <CardDescription>
+          Use the form below to create a new forum.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form className="space-y-8" onSubmit={handleSubmit}>
