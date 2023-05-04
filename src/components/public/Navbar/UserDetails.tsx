@@ -9,8 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Settings, User } from "lucide-react";
+import { LayoutDashboard } from "lucide-react";
 import { Session } from "next-auth";
+import Link from "next/link";
 
 interface UserDetailsProps {
   session: Session;
@@ -29,16 +30,18 @@ export const UserDetails = ({ session }: UserDetailsProps) => {
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end">
+      <DropdownMenuContent
+        className="w-56 rounded-t-none border-t-0"
+        align="end"
+        sideOffset={13}
+      >
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
+          <Link href="/admin/dashboard" className="flex items-center w-full">
+            <DropdownMenuItem className="w-full hover:cursor-pointer">
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <SignOutButton />

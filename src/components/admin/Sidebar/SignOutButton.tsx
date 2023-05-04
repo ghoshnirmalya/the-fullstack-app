@@ -15,9 +15,10 @@ export const SignOutButton = () => {
 
         router.push("/authentication");
       }}
+      className="text-center flex justify-center lg:justify-start items-center"
     >
-      <LogOut className="mr-2 h-4 w-4" />
-      <span>Log out</span>
+      <LogOut className="lg:mr-2 h-4 w-4" />
+      <span className="hidden lg:block">Log out</span>
     </DropdownMenuItem>
   );
 };

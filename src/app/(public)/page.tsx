@@ -1,4 +1,4 @@
-import { SignInButton } from "@/components/admin/Navbar/SignInButton";
+import { SignInButton } from "@/components/admin/Sidebar/SignInButton";
 import { buttonVariants } from "@/components/ui/button";
 import { authOptions } from "@/lib/auth";
 import { cn } from "@/lib/tailwind-utils";
@@ -20,7 +20,7 @@ export default async function IndexPage() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="p-4 space-y-4 container mx-auto text-center h-full flex items-center">
+    <div className="py-4 space-y-4 container text-center h-full flex items-center">
       <section className="py-24 space-y-4 max-w-xl mx-auto">
         <Link
           className={cn(

@@ -1,4 +1,3 @@
-import { Navbar } from "@/components/admin/Navbar";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { AuthProvider } from "@/services/auth-provider";
 import "@/styles/tailwind.css";
@@ -19,18 +18,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} h-screen flex flex-col bg-gray-50`}>
+      <body className={`${inter.className} h-screen flex bg-gray-100`}>
         <AuthProvider>
-          {/* @ts-expect-error Async Server Component */}
-          <Navbar />
-          <div className="flex flex-1 relative">
-            <aside className="w-auto lg:w-[250px] h-full fixed top-[65px]">
-              <Sidebar />
-            </aside>
-            <main className="w-[calc(100vw-73px)] lg:w-[calc(100vw-250px)] overflow-y-scroll relative left-[73px] lg:left-[250px] top-[65px] h-[calc(100vh-73px)]">
-              <div className="h-full">{children}</div>
-            </main>
-          </div>
+          <aside className="w-auto lg:w-[250px] h-full fixed">
+            {/* @ts-expect-error Async Server Component */}
+            <Sidebar />
+          </aside>
+          <main className="w-[calc(100vw-73px)] lg:w-[calc(100vw-250px)] overflow-y-scroll relative left-[73px] lg:left-[250px] bg-white">
+            <div className="h-full">{children}</div>
+          </main>
         </AuthProvider>
       </body>
     </html>

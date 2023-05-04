@@ -1,24 +1,15 @@
 "use client";
 
 import { cn } from "@/lib/tailwind-utils";
-import { Home, Newspaper } from "lucide-react";
+import { Newspaper } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const SidebarLinks = () => {
+export const NavbarLinks = () => {
   const pathname = usePathname();
 
   return (
-    <>
-      <Link
-        href="/"
-        className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-muted rounded": pathname === "/",
-        })}
-      >
-        <Home className="w-4 h-4" />
-        <span className="hidden lg:block">Home</span>
-      </Link>
+    <div className="space-x-2 flex items-center">
       <Link
         href="/forums"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
@@ -28,6 +19,6 @@ export const SidebarLinks = () => {
         <Newspaper className="w-4 h-4" />
         <span className="hidden lg:block">Forums</span>
       </Link>
-    </>
+    </div>
   );
 };

@@ -26,11 +26,11 @@ export default async function ForumIndexPage() {
   }
 
   return (
-    <div className="p-4 space-y-4 container mx-auto">
+    <div className="py-4 space-y-4 container mx-auto">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl">Forums</h1>
       </div>
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {forums.map((forum) => {
           return <ForumCard key={forum.id} forum={forum} />;
         })}
