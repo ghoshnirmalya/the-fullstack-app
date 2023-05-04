@@ -1,4 +1,4 @@
-import { ForumCreateForm } from "@/components/admin/ForumCreateForm";
+import { ForumCreateForm } from "@/components/admin/Forum/ForumCreateForm";
 
 export const metadata = {
   title: "Add new forum | Admin | the-fullstack-app",

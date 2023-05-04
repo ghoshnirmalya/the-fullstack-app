@@ -1,4 +1,4 @@
-import { ForumEditForm } from "@/components/admin/ForumEditForm";
+import { ForumEditForm } from "@/components/admin/Forum/ForumEditForm";
 import { getApiUrl } from "@/lib/get-api-url";
 import { Forum, ForumComment, Forum as ForumEntity } from "@prisma/client";
 import { Metadata } from "next";

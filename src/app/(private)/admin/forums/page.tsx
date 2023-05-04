@@ -1,4 +1,4 @@
-import { ForumCard } from "@/components/admin/ForumCard";
+import { ForumTable } from "@/components/admin/Forum/ForumTable";
 import { buttonVariants } from "@/components/ui/button";
 import { getApiUrl } from "@/lib/get-api-url";
 import { Forum } from "@prisma/client";
@@ -36,11 +36,7 @@ export default async function ForumIndexPage() {
           <PlusCircle className="mr-2 h-4 w-4" /> Add forum
         </Link>
       </div>
-      <div className="space-y-4">
-        {forums.map((forum) => {
-          return <ForumCard key={forum.id} forum={forum} />;
-        })}
-      </div>
+      <ForumTable forums={forums} />
     </div>
   );
 }
