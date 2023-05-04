@@ -31,7 +31,13 @@ export async function generateMetadata({
 
   const forum:
     | (ForumEntity & {
-        comments: ForumComment[];
+        comments: (ForumComment & {
+          author: {
+            id: string;
+            image: string | null;
+            name: string | null;
+          };
+        })[];
       })
     | null = await response.json();
 
@@ -68,7 +74,13 @@ export default async function ForumShowPage({
 
   const forum:
     | (ForumEntity & {
-        comments: ForumComment[];
+        comments: (ForumComment & {
+          author: {
+            id: string;
+            image: string | null;
+            name: string | null;
+          };
+        })[];
       })
     | null = await response.json();
 

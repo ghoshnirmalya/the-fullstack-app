@@ -27,7 +27,17 @@ export async function GET(
         id: Number(params.id),
       },
       include: {
-        comments: true,
+        comments: {
+          include: {
+            author: {
+              select: {
+                name: true,
+                image: true,
+                id: true,
+              },
+            },
+          },
+        },
       },
     });
 

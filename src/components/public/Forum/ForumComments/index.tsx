@@ -1,10 +1,17 @@
 import { ForumCommentCard } from "@/components/public/Forum/ForumComments/ForumCommentCard";
-import { ForumComment, Forum as ForumEntity } from "@prisma/client";
+import { ForumComment, Forum } from "@prisma/client";
 
 interface ForumCommentsProps {
-  forum: ForumEntity & {
-    comments: ForumComment[];
-  };
+  forum:
+    | Forum & {
+        comments: (ForumComment & {
+          author: {
+            id: string;
+            image: string | null;
+            name: string | null;
+          };
+        })[];
+      };
 }
 
 export const ForumComments = ({ forum }: ForumCommentsProps) => {
@@ -13,9 +20,15 @@ export const ForumComments = ({ forum }: ForumCommentsProps) => {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-4" id="js-forum-comments">
       {forum.comments.reverse().map((comment) => {
-        return <ForumCommentCard forumComment={comment} key={comment.id} />;
+        return (
+          <ForumCommentCard
+            forumComment={comment}
+            forum={forum}
+            key={comment.id}
+          />
+        );
       })}
     </div>
   );

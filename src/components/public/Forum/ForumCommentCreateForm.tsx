@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Forum } from "@prisma/client";
 import { Loader2 } from "lucide-react";
@@ -70,6 +69,15 @@ export const ForumCommentCreateForm = ({
         startTransition(() => {
           router.refresh();
         });
+
+        const forumCommentElement =
+          document.getElementById("js-forum-comments");
+
+        forumCommentElement?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+          inline: "nearest",
+        });
       } else {
         throw new Error("Something went wrong");
       }
@@ -81,22 +89,24 @@ export const ForumCommentCreateForm = ({
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Add comment</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form className="space-y-8" onSubmit={handleSubmit}>
-          <div className="flex flex-col space-y-2">
-            <Label htmlFor="content">Comment</Label>
-            <Textarea id="content" name="content" disabled={isPending} />
-          </div>
-          <Button type="submit" disabled={isMutating} className="w-full">
+    <div className="border rounded-lg bg-white shadow-sm p-4">
+      <form
+        className="space-y-2 flex flex-col items-end"
+        onSubmit={handleSubmit}
+      >
+        <Textarea id="content" name="content" disabled={isPending} required />
+        <div className="space-x-2">
+          <Button
+            type="submit"
+            className="w-full md:w-auto"
+            size="sm"
+            disabled={isMutating}
+          >
             {isMutating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Save
+            Comment
           </Button>
-        </form>
-      </CardContent>
-    </Card>
+        </div>
+      </form>
+    </div>
   );
 };
