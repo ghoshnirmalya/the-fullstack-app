@@ -38,10 +38,7 @@ export default async function IndexPage() {
         </p>
         <div className="space-x-4">
           {session ? (
-            <Link
-              className={buttonVariants({ variant: "outline" })}
-              href="/admin/dashboard"
-            >
+            <Link className={buttonVariants({})} href="/admin/dashboard">
               Go to dashboard
             </Link>
           ) : (

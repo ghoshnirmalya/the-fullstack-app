@@ -26,7 +26,7 @@ export default async function ForumIndexPage() {
   }
 
   return (
-    <div className="py-4 space-y-4 container mx-auto">
+    <div className="py-4 space-y-4 container">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl">Forums</h1>
       </div>
