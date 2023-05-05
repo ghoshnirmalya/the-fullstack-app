@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,16 +9,14 @@ import {
 import { Editor } from "@/components/ui/editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
 
-export const ForumCreateForm = () => {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const [isSaving, setIsSaving] = useState(false);
+export const ForumCreateForm = async () => {
   const editor = useEditor({
     extensions: [StarterKit],
     content: "",
@@ -33,44 +29,24 @@ export const ForumCreateForm = () => {
     },
   });
 
-  const isMutating = isSaving || isPending;
+  const handleSubmit = async (formData: FormData) => {
+    "use server";
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    const session = await getServerSession(authOptions);
 
-    setIsSaving(true);
-
-    const formData = new FormData(event.currentTarget);
-    const title = formData.get("title") as string;
-    const content = editor?.getHTML();
-
-    try {
-      const response = await fetch("/api/forums", {
-        method: "POST",
-        body: JSON.stringify({
-          title,
-          content,
-        }),
-      });
-
-      if (response.ok) {
-        const forum = await response.json();
-
-        setIsSaving(false);
-
-        startTransition(() => {
-          router.refresh();
-
-          router.push(`/admin/forums/${forum.id}`);
-        });
-      } else {
-        throw new Error("Something went wrong");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsSaving(false);
+    if (!session) {
+      throw new Error("Unauthorized");
     }
+
+    const forum = await prisma.forum.create({
+      data: {
+        title: String(formData.get("title")),
+        content: String(editor?.getHTML()),
+        creatorId: session.user.id,
+      },
+    });
+
+    redirect(`/admin/forums/${forum.id}`);
   };
 
   return (
@@ -82,16 +58,10 @@ export const ForumCreateForm = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-8" onSubmit={handleSubmit}>
+        <form className="space-y-8" action={handleSubmit}>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="title">Title</Label>
-            <Input
-              type="text"
-              id="title"
-              name="title"
-              disabled={isPending}
-              required
-            />
+            <Input type="text" id="title" name="title" required />
             <p className="text-sm text-muted-foreground">
               Title should be more than 4 characters.
             </p>
@@ -100,8 +70,7 @@ export const ForumCreateForm = () => {
             <Label htmlFor="content">Content</Label>
             <Editor editor={editor} />
           </div>
-          <Button type="submit" disabled={isMutating} className="w-full">
-            {isMutating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit" className="w-full">
             Save
           </Button>
         </form>
