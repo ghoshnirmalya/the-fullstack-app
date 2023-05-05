@@ -43,7 +43,6 @@ export async function generateMetadata({
 
   return {
     title: `${blog.title} | Admin | the-fullstack-app`,
-    description: blog.content,
   };
 }
 
@@ -75,7 +74,7 @@ export default async function BlogmShowPage({
       <div className="flex justify-between items-center">
         <h1 className="text-2xl">Edit blog</h1>
       </div>
-      <div className="w-full lg:w-1/2">
+      <div className="w-full">
         <BlogEditForm blog={blog} />
       </div>
     </div>

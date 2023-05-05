@@ -74,7 +74,7 @@ export default async function ForumShowPage({
       <div className="flex justify-between items-center">
         <h1 className="text-2xl">Edit forum</h1>
       </div>
-      <div className="w-full lg:w-1/2">
+      <div className="w-full">
         <ForumEditForm forum={forum} />
       </div>
     </div>
