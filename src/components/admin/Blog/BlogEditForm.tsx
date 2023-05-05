@@ -11,19 +11,25 @@ import {
 import { Editor } from "@/components/ui/editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useEditor } from "@tiptap/react";
+import { Blog } from "@prisma/client";
+import { Content, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
-export const ForumCreateForm = () => {
+interface BlogEditFormProps {
+  blog: Blog;
+}
+
+export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const editor = useEditor({
     extensions: [StarterKit],
-    content: "",
+    content: blog.content as Content,
     editable: true,
     editorProps: {
       attributes: {
@@ -33,7 +39,7 @@ export const ForumCreateForm = () => {
     },
   });
 
-  const isMutating = isSaving || isPending;
+  const isMutating = isSaving || isPending || isDeleting;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,27 +51,19 @@ export const ForumCreateForm = () => {
     const content = editor?.getHTML();
 
     try {
-      const response = await fetch("/api/forums", {
-        method: "POST",
+      await fetch(`/api/blogs/${blog.id}`, {
+        method: "PATCH",
         body: JSON.stringify({
           title,
           content,
         }),
       });
 
-      if (response.ok) {
-        const forum = await response.json();
+      setIsSaving(false);
 
-        setIsSaving(false);
-
-        startTransition(() => {
-          router.refresh();
-
-          router.push(`/admin/forums/${forum.id}`);
-        });
-      } else {
-        throw new Error("Something went wrong");
-      }
+      startTransition(() => {
+        router.refresh();
+      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -73,13 +71,29 @@ export const ForumCreateForm = () => {
     }
   };
 
+  const handleDelete = async () => {
+    setIsDeleting(true);
+
+    try {
+      await fetch(`/api/blogs/${blog.id}`, {
+        method: "DELETE",
+      });
+
+      setIsDeleting(false);
+
+      router.push("/blogs");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New forum</CardTitle>
-        <CardDescription>
-          Use the form below to create a new forum.
-        </CardDescription>
+        <CardTitle>{blog.title}</CardTitle>
+        <CardDescription>Use the form below to edit the blog.</CardDescription>
       </CardHeader>
       <CardContent>
         <form className="space-y-8" onSubmit={handleSubmit}>
@@ -89,6 +103,7 @@ export const ForumCreateForm = () => {
               type="text"
               id="title"
               name="title"
+              defaultValue={blog.title}
               disabled={isPending}
               required
             />
@@ -100,10 +115,22 @@ export const ForumCreateForm = () => {
             <Label htmlFor="content">Content</Label>
             <Editor editor={editor} />
           </div>
-          <Button type="submit" disabled={isMutating} className="w-full">
-            {isMutating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Save
-          </Button>
+          <div className="flex justify-between space-x-4">
+            <Button type="submit" disabled={isMutating} className="w-4/5">
+              {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Save
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isMutating}
+              className="w-1/5"
+            >
+              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Delete
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

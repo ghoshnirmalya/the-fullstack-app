@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/tailwind-utils";
-import { Newspaper } from "lucide-react";
+import { Newspaper, ScrollIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -18,6 +18,15 @@ export const NavbarLinks = () => {
       >
         <Newspaper className="w-4 h-4" />
         <span className="hidden lg:block">Forums</span>
+      </Link>
+      <Link
+        href="/blogs"
+        className={cn("p-2 bg-transparent flex space-x-2 items-center", {
+          "bg-muted rounded": pathname.startsWith("/blogs"),
+        })}
+      >
+        <ScrollIcon className="w-4 h-4" />
+        <span className="hidden lg:block">Blogs</span>
       </Link>
     </div>
   );

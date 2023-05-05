@@ -1,9 +1,4 @@
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Forum } from "@prisma/client";
 import Link from "next/link";
 
@@ -17,7 +12,6 @@ export const ForumCard = ({ forum }: ForumCardProps) => {
       <Card>
         <CardHeader>
           <CardTitle>{forum.title}</CardTitle>
-          <CardDescription>{forum.description}</CardDescription>
         </CardHeader>
       </Card>
     </Link>

@@ -6,7 +6,7 @@ import { z } from "zod";
 
 export const forumCommentCreateSchema = z.object({
   title: z.string().min(5),
-  description: z.string().optional(),
+  content: z.string(),
 });
 
 export const create = async (
@@ -16,12 +16,12 @@ export const create = async (
 ) => {
   const data: Forum = await request.json();
 
-  const { title, description } = forumCommentCreateSchema.parse(data);
+  const { title, content } = forumCommentCreateSchema.parse(data);
 
   return await prisma.forum.create({
     data: {
       title,
-      description,
+      content,
       creatorId: session.user.id,
     },
   });

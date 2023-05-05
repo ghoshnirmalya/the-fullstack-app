@@ -5,7 +5,7 @@ import { z } from "zod";
 
 export const forumUpdateSchema = z.object({
   title: z.string().min(5),
-  description: z.string().optional(),
+  content: z.any().optional(),
 });
 
 export const update = async (
@@ -15,7 +15,7 @@ export const update = async (
   const data: Forum = await request.json();
 
   const { params } = forumReadSchema.parse(context);
-  const { title, description } = forumUpdateSchema.parse(data);
+  const { title, content } = forumUpdateSchema.parse(data);
 
   return await prisma.forum.update({
     where: {
@@ -23,7 +23,7 @@ export const update = async (
     },
     data: {
       title,
-      description,
+      content,
     },
   });
 };

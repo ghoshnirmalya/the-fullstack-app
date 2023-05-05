@@ -1,8 +1,7 @@
-import { ForumEditForm } from "@/components/admin/Forum/ForumEditForm";
-import { show } from "@/controllers/forums/show";
+import { Blog } from "@/components/public/Blog";
+import { show } from "@/controllers/blogs/show";
 import { getApiUrl } from "@/lib/get-api-url";
 import { AsyncReturnType } from "@/lib/get-async-promise-return-type";
-import { Forum } from "@prisma/client";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -19,43 +18,43 @@ interface GenerateMetadataProps {
 export async function generateMetadata({
   params,
 }: GenerateMetadataProps): Promise<Metadata> {
-  const response = await fetch(getApiUrl(`api/forums/${params.id}`), {
+  const response = await fetch(getApiUrl(`api/blogs/${params.id}`), {
     headers: headers() as HeadersInit,
   });
 
   if (!response.ok) {
     return {
-      title: "Forum not found | Admin | the-fullstack-app",
+      title: "Blog not found | the-fullstack-app",
       description:
         "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
     };
   }
 
-  const forum: AsyncReturnType<typeof show> = await response.json();
+  const blog: AsyncReturnType<typeof show> = await response.json();
 
-  if (!forum) {
+  if (!blog) {
     return {
-      title: "Forum not found | Admin | the-fullstack-app",
+      title: "Blog not found | the-fullstack-app",
       description:
         "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
     };
   }
 
   return {
-    title: `${forum.title} | Admin | the-fullstack-app`,
+    title: `${blog.title} | the-fullstack-app`,
   };
 }
 
-interface IndexPageProps {
+interface BlogShowPageProps {
   params: {
     id: string;
   };
 }
 
-export default async function ForumShowPage({
+export default async function BlogShowPage({
   params: { id },
-}: IndexPageProps) {
-  const response = await fetch(getApiUrl(`api/forums/${id}`), {
+}: BlogShowPageProps) {
+  const response = await fetch(getApiUrl(`api/blogs/${id}`), {
     headers: headers() as HeadersInit,
   });
 
@@ -63,19 +62,16 @@ export default async function ForumShowPage({
     return notFound();
   }
 
-  const forum: Forum = await response.json();
+  const blog: AsyncReturnType<typeof show> = await response.json();
 
-  if (!forum) {
+  if (!blog) {
     return notFound();
   }
 
   return (
-    <div className="p-4 space-y-4 container mx-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl">Edit forum</h1>
-      </div>
-      <div className="w-full lg:w-1/2">
-        <ForumEditForm forum={forum} />
+    <div className="py-4 space-y-4 max-w-2xl mx-auto px-4">
+      <div className="w-full">
+        <Blog blog={blog} />
       </div>
     </div>
   );

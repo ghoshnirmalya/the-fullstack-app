@@ -42,11 +42,10 @@ export async function generateMetadata({
 
   return {
     title: `${forum.title} | the-fullstack-app`,
-    description: forum.description,
   };
 }
 
-interface IndexPageProps {
+interface ForumShowPageProps {
   params: {
     id: string;
   };
@@ -54,7 +53,7 @@ interface IndexPageProps {
 
 export default async function ForumShowPage({
   params: { id },
-}: IndexPageProps) {
+}: ForumShowPageProps) {
   const response = await fetch(getApiUrl(`api/forums/${id}`), {
     headers: headers() as HeadersInit,
   });
@@ -70,7 +69,7 @@ export default async function ForumShowPage({
   }
 
   return (
-    <div className="py-4 space-y-4 container">
+    <div className="py-4 space-y-4 max-w-2xl mx-auto px-4">
       <div className="w-full">
         <Forum forum={forum} />
       </div>

@@ -1,17 +1,17 @@
-import { create } from "@/controllers/forums/create";
-import { list } from "@/controllers/forums/list";
-import { forumReadSchema } from "@/controllers/forums/show";
+import { create } from "@/controllers/blogs/create";
+import { list } from "@/controllers/blogs/list";
+import { blogReadSchema } from "@/controllers/blogs/show";
 import { authOptions } from "@/lib/auth";
-import { Forum } from "@prisma/client";
+import { Blog } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET() {
   try {
-    const forums = await list();
+    const blogs = await list();
 
-    return new NextResponse(JSON.stringify(forums));
+    return new NextResponse(JSON.stringify(blogs));
   } catch (error) {
     return new NextResponse(null, {
       status: 500,
@@ -21,7 +21,7 @@ export async function GET() {
 
 export async function POST(
   request: Request,
-  context: z.infer<typeof forumReadSchema>
+  context: z.infer<typeof blogReadSchema>
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -32,14 +32,12 @@ export async function POST(
       });
     }
 
-    const forum: Forum = await create(request, context, session);
+    const blog: Blog = await create(request, context, session);
 
-    return new NextResponse(JSON.stringify(forum), {
+    return new NextResponse(JSON.stringify(blog), {
       status: 201,
     });
   } catch (error) {
-    console.log(error);
-
     if (error instanceof z.ZodError) {
       return new NextResponse(JSON.stringify(error.issues), {
         status: 422,

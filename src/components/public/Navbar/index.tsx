@@ -11,7 +11,7 @@ export const Navbar = async () => {
 
   return (
     <nav className="border-b text-sm fixed w-full bg-white z-10">
-      <div className="h-16 flex items-center justify-between container">
+      <div className="h-16 flex items-center justify-between max-w-2xl mx-auto px-4">
         <div className="space-x-8 flex items-center">
           <Link href="/" className="font-bold space-x-2 flex items-center">
             <Cpu /> <span>the-fullstack-app</span>

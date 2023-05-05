@@ -17,7 +17,7 @@ import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 
-export const ForumCreateForm = () => {
+export const BlogCreateForm = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isSaving, setIsSaving] = useState(false);
@@ -45,7 +45,7 @@ export const ForumCreateForm = () => {
     const content = editor?.getHTML();
 
     try {
-      const response = await fetch("/api/forums", {
+      const response = await fetch("/api/blogs", {
         method: "POST",
         body: JSON.stringify({
           title,
@@ -54,14 +54,14 @@ export const ForumCreateForm = () => {
       });
 
       if (response.ok) {
-        const forum = await response.json();
+        const blog = await response.json();
 
         setIsSaving(false);
 
         startTransition(() => {
           router.refresh();
 
-          router.push(`/admin/forums/${forum.id}`);
+          router.push(`/admin/blogs/${blog.id}`);
         });
       } else {
         throw new Error("Something went wrong");
@@ -76,9 +76,9 @@ export const ForumCreateForm = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New forum</CardTitle>
+        <CardTitle>New blog</CardTitle>
         <CardDescription>
-          Use the form below to create a new forum.
+          Use the form below to create a new blog.
         </CardDescription>
       </CardHeader>
       <CardContent>

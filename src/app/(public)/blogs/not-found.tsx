@@ -1,0 +1,15 @@
+import { Ban } from "lucide-react";
+
+export default function NotFound() {
+  return (
+    <div className="p-4 space-y-4 container mx-auto h-full">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl">Blogs</h1>
+      </div>
+      <div className="p-4 h-full flex items-center justify-center flex-col space-y-4">
+        <Ban className="w-12 h-12 text-gray-600" />
+        <h2>No blogs exist yet!</h2>
+      </div>
+    </div>
+  );
+}

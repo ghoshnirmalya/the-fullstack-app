@@ -20,8 +20,8 @@ export default async function IndexPage() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="py-4 space-y-4 container text-center h-full flex items-center">
-      <section className="py-24 space-y-4 max-w-xl mx-auto">
+    <div className="py-4 space-y-4 max-w-2xl mx-auto text-center h-full flex items-center">
+      <section className="py-24 space-y-4 max-w-xl mx-auto px-4">
         <Link
           className={cn(
             buttonVariants({ variant: "secondary" }),

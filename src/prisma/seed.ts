@@ -9,12 +9,12 @@ const userData: Prisma.UserCreateInput[] = [
       create: [
         {
           title: "Join the Prisma Slack",
-          description: "https://slack.prisma.io",
+          content: "https://slack.prisma.io",
           published: true,
         },
         {
           title: "Follow Prisma on Twitter",
-          description: "https://twitter.com/prisma",
+          content: "https://twitter.com/prisma",
           published: false,
         },
       ],
@@ -27,7 +27,7 @@ const userData: Prisma.UserCreateInput[] = [
       create: [
         {
           title: "Follow Prisma on Twitter",
-          description: "https://twitter.com/prisma",
+          content: "https://twitter.com/prisma",
           published: false,
         },
       ],

@@ -52,11 +52,12 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
-  forums            Forum[]
-  Account           Account[]
-  Session           Session[]
-  ForumComment      ForumComment[]
-  ForumCommentReply ForumCommentReply[]
+  forums              Forum[]
+  accounts            Account[]
+  sessions            Session[]
+  forumComments       ForumComment[]
+  forumCommentReplies ForumCommentReply[]
+  blogs               Blog[]
 
   @@map(name: "users")
 }
@@ -71,13 +72,13 @@ model VerificationToken {
 }
 
 model Forum {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @default(now()) @map(name: "updated_at")
-  creatorId   String
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  published Boolean  @default(false)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  creatorId String
 
   author   User           @relation(fields: [creatorId], references: [id])
   comments ForumComment[]
@@ -88,7 +89,7 @@ model Forum {
 
 model ForumComment {
   id        Int      @id @default(autoincrement())
-  content   String
+  content   String   @db.Text
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
   forumId   Int
@@ -105,7 +106,7 @@ model ForumComment {
 
 model ForumCommentReply {
   id             Int      @id @default(autoincrement())
-  content        String
+  content        String   @db.Text
   createdAt      DateTime @default(now()) @map(name: "created_at")
   updatedAt      DateTime @default(now()) @map(name: "updated_at")
   forumCommentId Int
@@ -117,4 +118,19 @@ model ForumCommentReply {
   @@index([forumCommentId])
   @@index([authorId])
   @@map(name: "forum_comment_replies")
+}
+
+model Blog {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String   @db.Text
+  published Boolean  @default(false)
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  creatorId String
+
+  author User @relation(fields: [creatorId], references: [id])
+
+  @@index([creatorId])
+  @@map(name: "blogs")
 }

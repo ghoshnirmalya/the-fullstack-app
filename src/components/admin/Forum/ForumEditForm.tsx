@@ -8,10 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Editor } from "@/components/ui/editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Forum } from "@prisma/client";
+import { Content, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -25,6 +27,18 @@ export const ForumEditForm = ({ forum }: ForumEditFormProps) => {
   const [isPending, startTransition] = useTransition();
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: forum.content as Content,
+    editable: true,
+    editorProps: {
+      attributes: {
+        class:
+          "prose dark:prose-invert prose-sm focus:outline-none min-h-[400px] rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-full",
+      },
+    },
+  });
+
   const isMutating = isSaving || isPending || isDeleting;
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,14 +48,14 @@ export const ForumEditForm = ({ forum }: ForumEditFormProps) => {
 
     const formData = new FormData(event.currentTarget);
     const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
+    const content = editor?.getHTML();
 
     try {
       await fetch(`/api/forums/${forum.id}`, {
         method: "PATCH",
         body: JSON.stringify({
           title,
-          description,
+          content,
         }),
       });
 
@@ -98,13 +112,8 @@ export const ForumEditForm = ({ forum }: ForumEditFormProps) => {
             </p>
           </div>
           <div className="flex flex-col space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              name="description"
-              defaultValue={forum.description || ""}
-              disabled={isPending}
-            />
+            <Label htmlFor="content">Content</Label>
+            <Editor editor={editor} />
           </div>
           <div className="flex justify-between space-x-4">
             <Button type="submit" disabled={isMutating} className="w-4/5">
