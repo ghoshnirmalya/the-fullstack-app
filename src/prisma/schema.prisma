@@ -94,9 +94,9 @@ model ForumComment {
   forumId   Int
   authorId  String
 
-  forum             Forum               @relation(fields: [forumId], references: [id])
-  author            User                @relation(fields: [authorId], references: [id])
-  forumCommentReply ForumCommentReply[]
+  forum               Forum               @relation(fields: [forumId], references: [id])
+  author              User                @relation(fields: [authorId], references: [id])
+  forumCommentReplies ForumCommentReply[]
 
   @@index([forumId])
   @@index([authorId])
@@ -104,17 +104,17 @@ model ForumComment {
 }
 
 model ForumCommentReply {
-  id        Int      @id @default(autoincrement())
-  content   String
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-  commentId Int
-  authorId  String
+  id             Int      @id @default(autoincrement())
+  content        String
+  createdAt      DateTime @default(now()) @map(name: "created_at")
+  updatedAt      DateTime @default(now()) @map(name: "updated_at")
+  forumCommentId Int
+  authorId       String
 
-  comments ForumComment @relation(fields: [commentId], references: [id])
-  author   User         @relation(fields: [authorId], references: [id])
+  forumComment ForumComment @relation(fields: [forumCommentId], references: [id])
+  author       User         @relation(fields: [authorId], references: [id])
 
-  @@index([commentId])
+  @@index([forumCommentId])
   @@index([authorId])
   @@map(name: "forum_comment_replies")
 }

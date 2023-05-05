@@ -1,17 +1,17 @@
-import { create } from "@/controllers/forums/create";
-import { list } from "@/controllers/forums/list";
-import { forumReadSchema } from "@/controllers/forums/show";
+import { create } from "@/controllers/forum-comment-replies/create";
+import { list } from "@/controllers/forum-comment-replies/list";
+import { forumCommentReplyReadSchema } from "@/controllers/forum-comment-replies/show";
 import { authOptions } from "@/lib/auth";
-import { Forum } from "@prisma/client";
+import { ForumComment, ForumCommentReply } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
 export async function GET() {
   try {
-    const forums = await list();
+    const forumCommentReplies = await list();
 
-    return new NextResponse(JSON.stringify(forums));
+    return new NextResponse(JSON.stringify(forumCommentReplies));
   } catch (error) {
     return new NextResponse(null, {
       status: 500,
@@ -21,7 +21,7 @@ export async function GET() {
 
 export async function POST(
   request: Request,
-  context: z.infer<typeof forumReadSchema>
+  context: z.infer<typeof forumCommentReplyReadSchema>
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -32,9 +32,13 @@ export async function POST(
       });
     }
 
-    const forum: Forum = await create(request, context, session);
+    const forumCommentreply: ForumCommentReply = await create(
+      request,
+      context,
+      session
+    );
 
-    return new NextResponse(JSON.stringify(forum), {
+    return new NextResponse(JSON.stringify(forumCommentreply), {
       status: 201,
     });
   } catch (error) {

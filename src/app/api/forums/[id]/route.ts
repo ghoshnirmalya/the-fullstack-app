@@ -1,45 +1,17 @@
+import { destroy } from "@/controllers/forums/destroy";
+import { forumReadSchema, show } from "@/controllers/forums/show";
+import { update } from "@/controllers/forums/update";
 import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-
-const forumReadSchema = z.object({
-  params: z.object({
-    id: z.string(),
-  }),
-});
-
-const forumUpdateSchema = z.object({
-  title: z.string().min(5),
-  description: z.string().optional(),
-});
 
 export async function GET(
   request: Request,
   context: z.infer<typeof forumReadSchema>
 ) {
   try {
-    const { params } = forumReadSchema.parse(context);
-
-    const forum = await prisma.forum.findUnique({
-      where: {
-        id: Number(params.id),
-      },
-      include: {
-        comments: {
-          include: {
-            author: {
-              select: {
-                name: true,
-                image: true,
-                id: true,
-              },
-            },
-          },
-        },
-      },
-    });
+    const forum = await show(request, context);
 
     return new NextResponse(JSON.stringify(forum), {
       status: 200,
@@ -64,19 +36,7 @@ export async function PATCH(
       });
     }
 
-    const { params } = forumReadSchema.parse(context);
-    const json = await request.json();
-    const { title, description } = forumUpdateSchema.parse(json);
-
-    const forum = await prisma.forum.update({
-      where: {
-        id: Number(params.id),
-      },
-      data: {
-        title,
-        description,
-      },
-    });
+    const forum = await update(request, context);
 
     return new NextResponse(JSON.stringify(forum), {
       status: 200,
@@ -99,13 +59,7 @@ export async function DELETE(
   context: z.infer<typeof forumReadSchema>
 ) {
   try {
-    const { params } = forumReadSchema.parse(context);
-
-    await prisma.forum.delete({
-      where: {
-        id: Number(params.id),
-      },
-    });
+    await destroy(request, context);
 
     return new NextResponse(null, {
       status: 202,

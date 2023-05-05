@@ -1,6 +1,7 @@
 import { Forum } from "@/components/public/Forum";
+import { show } from "@/controllers/forums/show";
 import { getApiUrl } from "@/lib/get-api-url";
-import { ForumComment, Forum as ForumEntity } from "@prisma/client";
+import { AsyncReturnType } from "@/lib/get-async-promise-return-type";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -29,17 +30,7 @@ export async function generateMetadata({
     };
   }
 
-  const forum:
-    | (ForumEntity & {
-        comments: (ForumComment & {
-          author: {
-            id: string;
-            image: string | null;
-            name: string | null;
-          };
-        })[];
-      })
-    | null = await response.json();
+  const forum: AsyncReturnType<typeof show> = await response.json();
 
   if (!forum) {
     return {
@@ -72,17 +63,7 @@ export default async function ForumShowPage({
     return notFound();
   }
 
-  const forum:
-    | (ForumEntity & {
-        comments: (ForumComment & {
-          author: {
-            id: string;
-            image: string | null;
-            name: string | null;
-          };
-        })[];
-      })
-    | null = await response.json();
+  const forum: AsyncReturnType<typeof show> = await response.json();
 
   if (!forum) {
     return notFound();

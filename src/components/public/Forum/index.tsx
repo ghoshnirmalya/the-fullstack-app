@@ -1,18 +1,10 @@
-import { ForumCommentCreateForm } from "@/components/public/Forum/ForumCommentCreateForm";
+import { ForumCommentCreateForm } from "@/components/public/Forum/ForumComments/ForumCommentCreateForm";
 import { ForumComments } from "@/components/public/Forum/ForumComments";
-import { ForumComment, Forum as ForumEntity } from "@prisma/client";
+import { show } from "@/controllers/forums/show";
+import { AsyncReturnType } from "@/lib/get-async-promise-return-type";
 
 interface ForumProps {
-  forum:
-    | ForumEntity & {
-        comments: (ForumComment & {
-          author: {
-            id: string;
-            image: string | null;
-            name: string | null;
-          };
-        })[];
-      };
+  forum: NonNullable<AsyncReturnType<typeof show>>;
 }
 
 export const Forum = ({ forum }: ForumProps) => {
