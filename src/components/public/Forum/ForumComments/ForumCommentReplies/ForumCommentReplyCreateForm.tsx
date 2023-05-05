@@ -31,21 +31,23 @@ export const ForumCommentReplyCreateForm = ({
     return null;
   }
 
-  if (!session) {
+  if (!session && isReplyFormVisible) {
     return (
-      <Card>
-        <CardHeader>
-          <div className="flex flex-col space-y-4">
-            <p className="text-sm">You must be signed in to add a comment.</p>
-            <Button
-              className="w-full"
-              onClick={() => router.push("/api/auth/signin")}
-            >
-              Sign in
-            </Button>
-          </div>
-        </CardHeader>
-      </Card>
+      <div
+        className={cn("p-4 bg-gray-50", {
+          "border-t": !!forumComment.forumCommentReplies.length,
+        })}
+      >
+        <div className="flex flex-col space-y-2">
+          <p className="text-sm">You must be signed in to add a reply.</p>
+          <Button
+            className="w-full"
+            onClick={() => router.push("/api/auth/signin")}
+          >
+            Sign in
+          </Button>
+        </div>
+      </div>
     );
   }
 
