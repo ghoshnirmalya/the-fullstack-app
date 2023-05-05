@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,51 +9,61 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { forumCommentCreateSchema } from "@/controllers/forums/create";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
+import { z } from "zod";
 
-export const ForumCreateForm = () => {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const [isSaving, setIsSaving] = useState(false);
-  const isMutating = isSaving || isPending;
+export const ForumCreateForm = async () => {
+  const handleSubmit = async (formData: FormData) => {
+    "use server";
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    // const session = await getServerSession(authOptions);
 
-    setIsSaving(true);
+    // if (!session) {
+    //   throw new Error("Unauthorized");
+    // }
 
-    const formData = new FormData(event.currentTarget);
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
+    // const forum = await prisma.forum.create({
+    //   data: {
+    //     title: String(formData.get("title")),
+    //     description: String(formData.get("description")),
+    //     creatorId: session.user.id,
+    //   },
+    // });
+
+    // redirect(`/admin/forums//${forum.id}`);
 
     try {
-      const response = await fetch("/api/forums", {
-        method: "POST",
-        body: JSON.stringify({
+      const session = await getServerSession(authOptions);
+
+      if (!session) {
+        throw new Error("Unauthorized");
+      }
+
+      const data = Object.fromEntries(formData.entries());
+
+      const { title, description } = forumCommentCreateSchema.parse(data);
+
+      const forum = await prisma.forum.create({
+        data: {
           title,
           description,
-        }),
+          creatorId: session.user.id,
+        },
       });
 
-      if (response.ok) {
-        const forum = await response.json();
-
-        setIsSaving(false);
-
-        startTransition(() => {
-          router.refresh();
-
-          router.push(`/admin/forums/${forum.id}`);
-        });
-      } else {
-        throw new Error("Something went wrong");
-      }
+      redirect(`/admin/forums/${forum.id}`);
     } catch (error) {
-      console.error(error);
-    } finally {
-      setIsSaving(false);
+      console.log(error);
+
+      if (error instanceof z.ZodError) {
+        throw new Error(JSON.stringify(error.issues));
+      }
+
+      throw new Error("Something went wrong.");
     }
   };
 
@@ -68,30 +76,19 @@ export const ForumCreateForm = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-8" onSubmit={handleSubmit}>
+        <form className="space-y-8" action={handleSubmit}>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="title">Title</Label>
-            <Input
-              type="text"
-              id="title"
-              name="title"
-              disabled={isPending}
-              required
-            />
+            <Input type="text" id="title" name="title" required />
             <p className="text-sm text-muted-foreground">
               Title should be more than 4 characters.
             </p>
           </div>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="description">Description</Label>
-            <Textarea
-              id="description"
-              name="description"
-              disabled={isPending}
-            />
+            <Textarea id="description" name="description" />
           </div>
-          <Button type="submit" disabled={isMutating} className="w-full">
-            {isMutating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit" className="w-full">
             Save
           </Button>
         </form>

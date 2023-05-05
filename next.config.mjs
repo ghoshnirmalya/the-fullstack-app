@@ -4,6 +4,7 @@ import "./src/lib/env.mjs";
 const config = {
   experimental: {
     appDir: true,
+    serverActions: true,
   },
   images: {
     remotePatterns: [
