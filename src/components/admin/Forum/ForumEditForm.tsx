@@ -1,6 +1,7 @@
-"use client";
-
-import { destroy, update } from "@/actions/forums";
+import { destroy } from "@/actions/forums/destroy";
+import { show } from "@/actions/forums/show";
+import { update } from "@/actions/forums/update";
+import { ForumTextEditor } from "@/components/admin/Forum/ForumTextEditor";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,67 +10,57 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Editor } from "@/components/ui/editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Forum } from "@prisma/client";
-import { Content, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import { isEmpty } from "lodash";
+import { revalidatePath } from "next/cache";
+import { notFound, redirect } from "next/navigation";
 
 interface ForumEditFormProps {
-  forum: Forum;
+  forumId: Forum["id"];
 }
 
-export const ForumEditForm = ({ forum }: ForumEditFormProps) => {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: "" as Content,
-    editable: true,
-    editorProps: {
-      attributes: {
-        class:
-          "prose dark:prose-invert prose-sm focus:outline-none min-h-[400px] rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-full",
-      },
-    },
+export const ForumEditForm = async ({ forumId }: ForumEditFormProps) => {
+  const { data: forum } = await show({
+    id: Number(forumId),
   });
 
-  if (status === "loading") {
-    return null;
+  if (!forum) {
+    return notFound();
   }
 
   const handleEdit = async (formData: FormData) => {
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
+    "use server";
 
-    await update({
+    const { error } = await update({
       id: Number(forum.id),
       title: String(formData.get("title")),
-      content: String(editor?.getHTML()),
-      session,
+      content: String(formData.get("content")),
     });
 
-    router.refresh();
+    if (!error && !isEmpty(forum)) {
+      revalidatePath(`/admin/forums/${forum.id}`);
+      redirect(`/admin/forums`);
+    }
 
-    redirect(`/admin/forums`);
+    if (error) {
+      console.log(error);
+    }
   };
 
   const handleDelete = async () => {
-    if (!session) {
-      throw new Error("Unauthorized");
+    "use server";
+
+    try {
+      await destroy({
+        id: Number(forum.id),
+      });
+
+      redirect(`/admin/forums`);
+    } catch (error) {
+      console.log(error);
     }
-
-    await destroy({
-      id: Number(forum.id),
-    });
-
-    router.refresh();
-
-    redirect(`/admin/forums`);
   };
 
   return (
@@ -79,7 +70,7 @@ export const ForumEditForm = ({ forum }: ForumEditFormProps) => {
         <CardDescription>Use the form below to edit the forum.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-8" action={handleEdit}>
+        <form className="space-y-8" action={handleEdit} id="myForm">
           <div className="flex flex-col space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
@@ -95,7 +86,7 @@ export const ForumEditForm = ({ forum }: ForumEditFormProps) => {
           </div>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="content">Content</Label>
-            <Editor editor={editor} />
+            <ForumTextEditor forumContent={forum.content} />
           </div>
           <div className="flex justify-between space-x-4">
             <Button type="submit" className="w-4/5">

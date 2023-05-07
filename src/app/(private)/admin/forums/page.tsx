@@ -1,4 +1,4 @@
-import { list } from "@/actions/forums";
+import { list } from "@/actions/forums/list";
 import { ForumTable } from "@/components/admin/Forum/ForumTable";
 import { buttonVariants } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
@@ -12,9 +12,9 @@ export const metadata = {
 };
 
 export default async function ForumIndexPage() {
-  const forums = await list();
+  const { data: forums } = await list();
 
-  if (!forums.length) {
+  if (!forums?.length) {
     return notFound();
   }
 

@@ -1,37 +1,19 @@
+import { show } from "@/actions/forums/show";
 import { ForumEditForm } from "@/components/admin/Forum/ForumEditForm";
-import { show } from "@/controllers/forums/show";
-import { getApiUrl } from "@/lib/get-api-url";
-import { AsyncReturnType } from "@/lib/get-async-promise-return-type";
-import { Forum } from "@prisma/client";
 import { Metadata } from "next";
-import { headers } from "next/headers";
-import { notFound } from "next/navigation";
 
 interface GenerateMetadataProps {
   params: {
     id: string;
-  };
-  searchParams: {
-    [key: string]: string | string[] | undefined;
   };
 }
 
 export async function generateMetadata({
   params,
 }: GenerateMetadataProps): Promise<Metadata> {
-  const response = await fetch(getApiUrl(`api/forums/${params.id}`), {
-    headers: headers() as HeadersInit,
+  const { data: forum } = await show({
+    id: Number(params.id),
   });
-
-  if (!response.ok) {
-    return {
-      title: "Forum not found | Admin | the-fullstack-app",
-      description:
-        "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
-    };
-  }
-
-  const forum: AsyncReturnType<typeof show> = await response.json();
 
   if (!forum) {
     return {
@@ -55,27 +37,14 @@ interface IndexPageProps {
 export default async function ForumShowPage({
   params: { id },
 }: IndexPageProps) {
-  const response = await fetch(getApiUrl(`api/forums/${id}`), {
-    headers: headers() as HeadersInit,
-  });
-
-  if (!response.ok) {
-    return notFound();
-  }
-
-  const forum: Forum = await response.json();
-
-  if (!forum) {
-    return notFound();
-  }
-
   return (
     <div className="p-4 space-y-4 container mx-auto">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl">Edit forum</h1>
       </div>
       <div className="w-full">
-        <ForumEditForm forum={forum} />
+        {/* @ts-expect-error Async Server Component */}
+        <ForumEditForm forumId={id} />
       </div>
     </div>
   );

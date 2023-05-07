@@ -1,6 +1,5 @@
-"use client";
-
-import { create } from "@/actions/forums";
+import { create } from "@/actions/forums/create";
+import { ForumTextEditor } from "@/components/admin/Forum/ForumTextEditor";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,47 +8,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Editor } from "@/components/ui/editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Content, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
+import isEmpty from "lodash/isEmpty";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export const ForumCreateForm = () => {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: "" as Content,
-    editable: true,
-    editorProps: {
-      attributes: {
-        class:
-          "prose dark:prose-invert prose-sm focus:outline-none min-h-[400px] rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-full",
-      },
-    },
-  });
-
-  if (status === "loading") {
-    return null;
-  }
-
+export const ForumCreateForm = async () => {
   const handleCreate = async (formData: FormData) => {
-    if (!session) {
-      throw new Error("Unauthorized");
-    }
+    "use server";
 
-    const forum = await create({
+    const { data: forum, error } = await create({
       title: String(formData.get("title")),
-      content: String(editor?.getHTML()),
-      session,
+      content: String(formData.get("content")),
     });
 
-    router.refresh();
+    if (!error && !isEmpty(forum)) {
+      revalidatePath(`/admin/forums`);
+      redirect(`/admin/forums/${forum.id}`);
+    }
 
-    redirect(`/admin/forums/${forum.id}`);
+    if (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -71,7 +52,7 @@ export const ForumCreateForm = () => {
           </div>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="content">Content</Label>
-            <Editor editor={editor} />
+            <ForumTextEditor />
           </div>
           <Button type="submit" className="w-full">
             Save

@@ -13,6 +13,7 @@ export default async function ForumCreatePage() {
         <h1 className="text-2xl">Create new forum</h1>
       </div>
       <div className="w-full">
+        {/* @ts-expect-error Async Server Component */}
         <ForumCreateForm />
       </div>
     </div>
