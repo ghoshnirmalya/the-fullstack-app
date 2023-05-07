@@ -91,11 +91,6 @@ export const ForumTable = ({
         cell: (info) => info.getValue(),
         header: () => "Title",
       },
-      {
-        accessorKey: "createdAt",
-        cell: (info) => info.getValue(),
-        header: () => "Created at",
-      },
     ],
     []
   );

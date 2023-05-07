@@ -1,9 +1,7 @@
+import { list } from "@/actions/forums";
 import { ForumTable } from "@/components/admin/Forum/ForumTable";
 import { buttonVariants } from "@/components/ui/button";
-import { getApiUrl } from "@/lib/get-api-url";
-import { Forum } from "@prisma/client";
 import { PlusCircle } from "lucide-react";
-import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -14,15 +12,7 @@ export const metadata = {
 };
 
 export default async function ForumIndexPage() {
-  const response = await fetch(getApiUrl("api/forums"), {
-    headers: headers() as HeadersInit,
-  });
-
-  if (!response.ok) {
-    return notFound();
-  }
-
-  const forums: Forum[] = await response.json();
+  const forums = await list();
 
   if (!forums.length) {
     return notFound();

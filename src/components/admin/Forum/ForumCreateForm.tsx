@@ -1,3 +1,6 @@
+"use client";
+
+import { create } from "@/actions/forums";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,17 +12,17 @@ import {
 import { Editor } from "@/components/ui/editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { useEditor } from "@tiptap/react";
+import { Content, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { getServerSession } from "next-auth/next";
-import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
 
-export const ForumCreateForm = async () => {
+export const ForumCreateForm = () => {
+  const router = useRouter();
+  const { data: session, status } = useSession();
   const editor = useEditor({
     extensions: [StarterKit],
-    content: "",
+    content: "" as Content,
     editable: true,
     editorProps: {
       attributes: {
@@ -29,22 +32,22 @@ export const ForumCreateForm = async () => {
     },
   });
 
-  const handleSubmit = async (formData: FormData) => {
-    "use server";
+  if (status === "loading") {
+    return null;
+  }
 
-    const session = await getServerSession(authOptions);
-
+  const handleCreate = async (formData: FormData) => {
     if (!session) {
       throw new Error("Unauthorized");
     }
 
-    const forum = await prisma.forum.create({
-      data: {
-        title: String(formData.get("title")),
-        content: String(editor?.getHTML()),
-        creatorId: session.user.id,
-      },
+    const forum = await create({
+      title: String(formData.get("title")),
+      content: String(editor?.getHTML()),
+      session,
     });
+
+    router.refresh();
 
     redirect(`/admin/forums/${forum.id}`);
   };
@@ -58,7 +61,7 @@ export const ForumCreateForm = async () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-8" action={handleSubmit}>
+        <form className="space-y-8" action={handleCreate}>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input type="text" id="title" name="title" required />
