@@ -21,10 +21,7 @@ export const ForumCommentReplies = ({
     <div className="pt-4 px-4 bg-gray-50">
       {forumComment.forumCommentReplies.map((reply) => {
         return (
-          <ForumCommentReplyCard
-            forumCommentReply={reply}
-            key={forumComment.id}
-          />
+          <ForumCommentReplyCard forumCommentReply={reply} key={reply.id} />
         );
       })}
     </div>

@@ -1,7 +1,5 @@
+import { list } from "@/actions/blogs/list";
 import { BlogCard } from "@/components/public/Blog/BlogCard";
-import { getApiUrl } from "@/lib/get-api-url";
-import { Blog } from "@prisma/client";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 export const metadata = {
@@ -11,17 +9,9 @@ export const metadata = {
 };
 
 export default async function BlogIndexPage() {
-  const response = await fetch(getApiUrl("api/blogs"), {
-    headers: headers() as HeadersInit,
-  });
+  const { data: blogs } = await list();
 
-  if (!response.ok) {
-    return notFound();
-  }
-
-  const blogs: Blog[] = await response.json();
-
-  if (!blogs.length) {
+  if (!blogs?.length) {
     return notFound();
   }
 

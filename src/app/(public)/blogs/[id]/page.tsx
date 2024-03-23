@@ -1,9 +1,6 @@
+import { show } from "@/actions/blogs/show";
 import { Blog } from "@/components/public/Blog";
-import { show } from "@/controllers/blogs/show";
-import { getApiUrl } from "@/lib/get-api-url";
-import { AsyncReturnType } from "@/lib/get-async-promise-return-type";
 import { Metadata } from "next";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 interface GenerateMetadataProps {
@@ -18,19 +15,9 @@ interface GenerateMetadataProps {
 export async function generateMetadata({
   params,
 }: GenerateMetadataProps): Promise<Metadata> {
-  const response = await fetch(getApiUrl(`api/blogs/${params.id}`), {
-    headers: headers() as HeadersInit,
+  const { data: blog } = await show({
+    id: Number(params.id),
   });
-
-  if (!response.ok) {
-    return {
-      title: "Blog not found | the-fullstack-app",
-      description:
-        "This is a demo of a fullstack app using Next.js, Prisma, and NextAuth by Nirmalya Ghosh.",
-    };
-  }
-
-  const blog: AsyncReturnType<typeof show> = await response.json();
 
   if (!blog) {
     return {
@@ -54,15 +41,9 @@ interface BlogShowPageProps {
 export default async function BlogShowPage({
   params: { id },
 }: BlogShowPageProps) {
-  const response = await fetch(getApiUrl(`api/blogs/${id}`), {
-    headers: headers() as HeadersInit,
+  const { data: blog } = await show({
+    id: Number(id),
   });
-
-  if (!response.ok) {
-    return notFound();
-  }
-
-  const blog: AsyncReturnType<typeof show> = await response.json();
 
   if (!blog) {
     return notFound();

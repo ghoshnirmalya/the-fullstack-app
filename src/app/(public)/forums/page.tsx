@@ -1,7 +1,5 @@
+import { list } from "@/actions/forums/list";
 import { ForumCard } from "@/components/public/Forum/ForumCard";
-import { getApiUrl } from "@/lib/get-api-url";
-import { Forum } from "@prisma/client";
-import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 export const metadata = {
@@ -11,17 +9,9 @@ export const metadata = {
 };
 
 export default async function ForumIndexPage() {
-  const response = await fetch(getApiUrl("api/forums"), {
-    headers: headers() as HeadersInit,
-  });
+  const { data: forums } = await list();
 
-  if (!response.ok) {
-    return notFound();
-  }
-
-  const forums: Forum[] = await response.json();
-
-  if (!forums.length) {
+  if (!forums?.length) {
     return notFound();
   }
 
