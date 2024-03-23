@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../lib/prisma";
 import { Prisma } from "@prisma/client";
 
 const userData: Prisma.UserCreateInput[] = [
@@ -19,6 +19,20 @@ const userData: Prisma.UserCreateInput[] = [
         },
       ],
     },
+    blogs: {
+      create: [
+        {
+          title: "Prisma Day 2021",
+          content: "https://prisma.io/day",
+          published: true,
+        },
+        {
+          title: "Prisma Day 2022",
+          content: "https://prisma.io/day",
+          published: false,
+        },
+      ],
+    },
   },
   {
     name: "Bob",
@@ -29,6 +43,20 @@ const userData: Prisma.UserCreateInput[] = [
           title: "Follow Prisma on Twitter",
           content: "https://twitter.com/prisma",
           published: false,
+        },
+      ],
+    },
+    blogs: {
+      create: [
+        {
+          title: "Prisma Day 2022",
+          content: "https://prisma.io/day",
+          published: false,
+        },
+        {
+          title: "Prisma Day 2023",
+          content: "https://prisma.io/day",
+          published: true,
         },
       ],
     },
