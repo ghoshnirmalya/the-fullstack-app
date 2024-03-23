@@ -21,7 +21,6 @@ export default function RootLayout({
       <body className={`${inter.className} h-screen flex bg-gray-50`}>
         <AuthProvider>
           <aside className="w-auto lg:w-[250px] h-full fixed">
-            {/* @ts-expect-error Async Server Component */}
             <Sidebar />
           </aside>
           <main className="w-[calc(100vw-73px)] lg:w-[calc(100vw-250px)] overflow-y-scroll relative left-[73px] lg:left-[250px]">

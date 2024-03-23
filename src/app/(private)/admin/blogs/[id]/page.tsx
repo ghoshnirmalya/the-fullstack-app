@@ -41,8 +41,7 @@ export default async function BlogShowPage({ params: { id } }: IndexPageProps) {
         <h1 className="text-2xl">Edit blog</h1>
       </div>
       <div className="w-full">
-        {/* @ts-expect-error Async Server Component */}
-        <BlogEditForm blogId={id} />
+        <BlogEditForm blogId={Number(id)} />
       </div>
     </div>
   );

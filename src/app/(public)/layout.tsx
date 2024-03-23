@@ -20,7 +20,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} h-screen flex flex-col bg-white`}>
         <AuthProvider>
-          {/* @ts-expect-error Async Server Component */}
           <Navbar />
           <main className="overflow-y-scroll relative w-full top-[65px] h-[calc(100vh-73px)]">
             {children}

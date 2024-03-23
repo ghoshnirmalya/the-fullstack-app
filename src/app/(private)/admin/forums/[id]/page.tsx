@@ -43,8 +43,7 @@ export default async function ForumShowPage({
         <h1 className="text-2xl">Edit forum</h1>
       </div>
       <div className="w-full">
-        {/* @ts-expect-error Async Server Component */}
-        <ForumEditForm forumId={id} />
+        <ForumEditForm forumId={Number(id)} />
       </div>
     </div>
   );
