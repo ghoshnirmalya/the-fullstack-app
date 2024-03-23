@@ -9,10 +9,8 @@ export const metadata = {
 export default async function BlogCreatePage() {
   return (
     <div className="p-4 space-y-4 container mx-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl">Create new blog</h1>
-      </div>
       <div className="w-full">
+        {/* @ts-expect-error Async Server Component */}
         <BlogCreateForm />
       </div>
     </div>

@@ -9,9 +9,6 @@ export const metadata = {
 export default async function ForumCreatePage() {
   return (
     <div className="p-4 space-y-4 container mx-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl">Create new forum</h1>
-      </div>
       <div className="w-full">
         {/* @ts-expect-error Async Server Component */}
         <ForumCreateForm />

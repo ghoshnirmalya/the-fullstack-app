@@ -19,10 +19,10 @@ export const SidebarLinks = () => {
       <Link
         href="/"
         className={cn(
-          "p-4 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start border-b",
+          "p-2 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start border-b",
           {
-            "bg-gray-200": pathname === "/",
-          }
+            "bg-gray-100": pathname === "/",
+          },
         )}
         target="_blank"
       >
@@ -35,10 +35,10 @@ export const SidebarLinks = () => {
       <Link
         href="/admin/dashboard"
         className={cn(
-          "p-4 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start",
+          "p-2 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start",
           {
-            "bg-gray-200": pathname === "/admin/dashboard",
-          }
+            "bg-gray-100": pathname === "/admin/dashboard",
+          },
         )}
       >
         <LayoutDashboard className="w-4 h-4" />
@@ -47,10 +47,10 @@ export const SidebarLinks = () => {
       <Link
         href="/admin/forums"
         className={cn(
-          "p-4 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start",
+          "p-2 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start",
           {
-            "bg-gray-200": pathname.startsWith("/admin/forums"),
-          }
+            "bg-gray-100": pathname.startsWith("/admin/forums"),
+          },
         )}
       >
         <Newspaper className="w-4 h-4" />
@@ -59,10 +59,10 @@ export const SidebarLinks = () => {
       <Link
         href="/admin/blogs"
         className={cn(
-          "p-4 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start",
+          "p-2 bg-transparent flex space-x-2 items-center w-full justify-center lg:justify-start",
           {
-            "bg-gray-200": pathname.startsWith("/admin/blogs"),
-          }
+            "bg-gray-100": pathname.startsWith("/admin/blogs"),
+          },
         )}
       >
         <ScrollText className="w-4 h-4" />

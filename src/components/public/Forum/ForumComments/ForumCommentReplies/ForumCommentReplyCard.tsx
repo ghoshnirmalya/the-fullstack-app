@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { show } from "@/controllers/forums/show";
 import { AsyncReturnType } from "@/lib/get-async-promise-return-type";
+import { format } from "date-fns";
 
 interface ForumCommentReplyCardProps {
   forumCommentReply: NonNullable<
@@ -31,7 +32,13 @@ export const ForumCommentReplyCard = ({
           </AvatarFallback>
         </Avatar>
         <span className="font-bold">{forumCommentReply.author.name}</span>
-        <div>on {String(forumCommentReply.createdAt)}</div>
+        <div>
+          on{" "}
+          {format(
+            new Date(String(forumCommentReply.createdAt)),
+            "do MMMM, yyyy",
+          )}
+        </div>
       </div>
       <div className="py-2 mx-7">{forumCommentReply.content}</div>
     </div>

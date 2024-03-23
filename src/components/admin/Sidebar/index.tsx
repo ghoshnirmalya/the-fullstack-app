@@ -10,7 +10,7 @@ export const Sidebar = async () => {
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="flex flex-col space-y-2 h-full w-[73px] lg:w-full text-sm bg-gray-100 text-muted-foreground justify-between border-r items-center">
+    <div className="flex flex-col space-y-2 h-full w-[73px] lg:w-full text-sm justify-between border-r items-center">
       <div className="space-y-0 w-full flex flex-col justify-center lg:justify-start items-center">
         <Link
           href="/admin/dashboard"

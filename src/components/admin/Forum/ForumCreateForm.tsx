@@ -36,7 +36,7 @@ export const ForumCreateForm = async () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New forum</CardTitle>
+        <CardTitle>Create a new forum</CardTitle>
         <CardDescription>
           Use the form below to create a new forum.
         </CardDescription>

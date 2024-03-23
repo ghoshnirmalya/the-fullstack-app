@@ -2,10 +2,6 @@ import "./src/lib/env.mjs";
 
 /** @type {import('next').NextConfig} */
 const config = {
-  experimental: {
-    appDir: true,
-    serverActions: true,
-  },
   images: {
     remotePatterns: [
       {

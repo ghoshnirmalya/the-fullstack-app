@@ -3,6 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { show } from "@/controllers/forums/show";
 import { AsyncReturnType } from "@/lib/get-async-promise-return-type";
 import { ForumCommentReplies } from "./ForumCommentReplies";
+import { format } from "date-fns";
 
 interface ForumCommentCardProps {
   forumComment: NonNullable<AsyncReturnType<typeof show>>["comments"][number];
@@ -30,7 +31,10 @@ export const ForumCommentCard = ({
             </AvatarFallback>
           </Avatar>
           <span className="font-bold">{forumComment.author.name}</span>
-          <div>on {String(forumComment.createdAt)}</div>
+          <div>
+            on{" "}
+            {format(new Date(String(forumComment.createdAt)), "do MMMM, yyyy")}
+          </div>
         </div>
         <div className="p-4 border-b">{forumComment.content}</div>
         <ForumCommentReplies forumComment={forumComment} />

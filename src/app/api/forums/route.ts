@@ -13,6 +13,8 @@ export async function GET() {
 
     return new NextResponse(JSON.stringify(forums));
   } catch (error) {
+    console.log("Error", error);
+
     return new NextResponse(null, {
       status: 500,
     });
@@ -21,7 +23,7 @@ export async function GET() {
 
 export async function POST(
   request: Request,
-  context: z.infer<typeof forumReadSchema>
+  context: z.infer<typeof forumReadSchema>,
 ) {
   try {
     const session = await getServerSession(authOptions);

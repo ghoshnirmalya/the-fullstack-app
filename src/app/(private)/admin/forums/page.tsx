@@ -19,14 +19,16 @@ export default async function ForumIndexPage() {
   }
 
   return (
-    <div className="p-4 space-y-4 container mx-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl">Forums</h1>
-        <Link href="/admin/forums/new" className={buttonVariants({})}>
-          <PlusCircle className="mr-2 h-4 w-4" /> Add forum
-        </Link>
+    <div className="p-4 container mx-auto">
+      <div className="bg-white p-4 border rounded-lg space-y-4 shadow-sm">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl">Forums</h1>
+          <Link href="/admin/forums/new" className={buttonVariants({})}>
+            <PlusCircle className="mr-2 h-4 w-4" /> Add forum
+          </Link>
+        </div>
+        <ForumTable forums={forums} />
       </div>
-      <ForumTable forums={forums} />
     </div>
   );
 }

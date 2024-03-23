@@ -1,5 +1,7 @@
-"use client";
-
+import { destroy } from "@/actions/blogs/destroy";
+import { show } from "@/actions/blogs/show";
+import { update } from "@/actions/blogs/update";
+import { BlogTextEditor } from "@/components/admin/Blog/BlogTextEditor";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,84 +10,56 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Editor } from "@/components/ui/editor";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Blog } from "@prisma/client";
-import { Content, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { isEmpty } from "lodash";
+import { revalidatePath } from "next/cache";
+import { notFound, redirect } from "next/navigation";
 
 interface BlogEditFormProps {
-  blog: Blog;
+  blogId: Blog["id"];
 }
 
-export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const [isSaving, setIsSaving] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: blog.content as Content,
-    editable: true,
-    editorProps: {
-      attributes: {
-        class:
-          "prose dark:prose-invert prose-sm focus:outline-none min-h-[400px] rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 max-w-full",
-      },
-    },
+export const BlogEditForm = async ({ blogId }: BlogEditFormProps) => {
+  const { data: blog } = await show({
+    id: Number(blogId),
   });
 
-  const isMutating = isSaving || isPending || isDeleting;
+  if (!blog) {
+    return notFound();
+  }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleEdit = async (formData: FormData) => {
+    "use server";
 
-    setIsSaving(true);
+    const { error } = await update({
+      id: Number(blog.id),
+      title: String(formData.get("title")),
+      content: String(formData.get("content")),
+    });
 
-    const formData = new FormData(event.currentTarget);
-    const title = formData.get("title") as string;
-    const content = editor?.getHTML();
+    if (!error && !isEmpty(blog)) {
+      revalidatePath(`/admin/blogs/${blog.id}`);
+      redirect(`/admin/blogs`);
+    }
 
-    try {
-      await fetch(`/api/blogs/${blog.id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          title,
-          content,
-        }),
-      });
-
-      setIsSaving(false);
-
-      startTransition(() => {
-        router.refresh();
-      });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsSaving(false);
+    if (error) {
+      console.log(error);
     }
   };
 
   const handleDelete = async () => {
-    setIsDeleting(true);
+    "use server";
 
     try {
-      await fetch(`/api/blogs/${blog.id}`, {
-        method: "DELETE",
+      await destroy({
+        id: Number(blog.id),
       });
 
-      setIsDeleting(false);
-
-      router.push("/blogs");
+      redirect(`/admin/blogs`);
     } catch (error) {
-      console.error(error);
-    } finally {
-      setIsDeleting(false);
+      console.log(error);
     }
   };
 
@@ -96,7 +70,7 @@ export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
         <CardDescription>Use the form below to edit the blog.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="space-y-8" onSubmit={handleSubmit}>
+        <form className="space-y-8" action={handleEdit} id="myForm">
           <div className="flex flex-col space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
@@ -104,7 +78,6 @@ export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
               id="title"
               name="title"
               defaultValue={blog.title}
-              disabled={isPending}
               required
             />
             <p className="text-sm text-muted-foreground">
@@ -113,21 +86,18 @@ export const BlogEditForm = ({ blog }: BlogEditFormProps) => {
           </div>
           <div className="flex flex-col space-y-2">
             <Label htmlFor="content">Content</Label>
-            <Editor editor={editor} />
+            <BlogTextEditor blogContent={blog.content} />
           </div>
           <div className="flex justify-between space-x-4">
-            <Button type="submit" disabled={isMutating} className="w-4/5">
-              {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Button type="submit" className="w-4/5">
               Save
             </Button>
             <Button
               type="button"
               variant="destructive"
               onClick={handleDelete}
-              disabled={isMutating}
               className="w-1/5"
             >
-              {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Delete
             </Button>
           </div>

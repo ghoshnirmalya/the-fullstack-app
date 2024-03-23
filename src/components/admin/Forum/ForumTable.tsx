@@ -12,6 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { cva } from "class-variance-authority";
+import { format } from "date-fns";
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -59,7 +60,7 @@ const tableVariants = cva(
       shadow: "sm",
       rounded: true,
     },
-  }
+  },
 );
 
 interface ForumTableProps {
@@ -91,8 +92,14 @@ export const ForumTable = ({
         cell: (info) => info.getValue(),
         header: () => "Title",
       },
+      {
+        accessorKey: "createdAt",
+        cell: (info) =>
+          format(new Date(String(info.getValue())), "do MMMM, yyyy"),
+        header: () => "Created at",
+      },
     ],
-    []
+    [],
   );
 
   const table = useReactTable({
@@ -111,7 +118,7 @@ export const ForumTable = ({
     <Card>
       <table
         className={cn(
-          tableVariants({ size, striped, fullWidth, hover, shadow, rounded })
+          tableVariants({ size, striped, fullWidth, hover, shadow, rounded }),
         )}
       >
         <thead className={cn("bg-gray-50 border-b")}>
@@ -135,7 +142,7 @@ export const ForumTable = ({
                       >
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                         {{
                           asc: <ArrowUpNarrowWide className="h-4 2-4 block" />,
@@ -169,7 +176,7 @@ export const ForumTable = ({
                       <td key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
-                          cell.getContext()
+                          cell.getContext(),
                         )}
                       </td>
                     );
