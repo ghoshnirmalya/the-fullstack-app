@@ -21,11 +21,11 @@ export default async function IndexPage() {
 
   return (
     <div className="py-4 space-y-4 max-w-2xl mx-auto text-center h-full flex items-center">
-      <section className="py-24 space-y-4 max-w-xl mx-auto px-4">
+      <section className="py-24 space-y-6 max-w-xl mx-auto px-4">
         <Link
           className={cn(
-            buttonVariants({ variant: "secondary" }),
-            "rounded-full border"
+            buttonVariants({ variant: "ghost" }),
+            "rounded-full border",
           )}
           href="https://twitter.com/NirmalyaGhosh_"
           target="_blank"

@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} h-screen flex flex-col bg-white`}>
+      <body className={`${inter.className} h-screen flex flex-col bg-gray-50`}>
         <AuthProvider>
           <Navbar />
           <main className="overflow-y-scroll relative w-full top-[65px] h-[calc(100vh-73px)]">

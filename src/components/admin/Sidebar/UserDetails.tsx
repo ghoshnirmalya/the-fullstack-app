@@ -22,7 +22,7 @@ export const UserDetails = ({ session }: UserDetailsProps) => {
             variant="ghost"
             className="space-x-2 w-full p-2 rounded-none justify-center lg:justify-start items-center"
           >
-            <Avatar className="block lg:hidden w-8 h-8 border">
+            <Avatar className="block w-8 h-8 border">
               {session?.user?.image && (
                 <AvatarImage
                   src={session?.user?.image}
@@ -32,7 +32,7 @@ export const UserDetails = ({ session }: UserDetailsProps) => {
               )}
               <AvatarFallback>{session?.user?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
-            <div className="hidden lg:flex justify-between w-full  items-center">
+            <div className="hidden lg:flex justify-between w-full items-center">
               <span>{session?.user?.name}</span>
               <PanelBottomOpen className="w-4 h-4" />
             </div>

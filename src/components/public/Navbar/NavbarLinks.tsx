@@ -13,7 +13,7 @@ export const NavbarLinks = () => {
       <Link
         href="/forums"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-muted rounded": pathname.startsWith("/forums"),
+          "font-semibold rounded": pathname.startsWith("/forums"),
         })}
       >
         <Newspaper className="w-4 h-4" />
@@ -22,7 +22,7 @@ export const NavbarLinks = () => {
       <Link
         href="/blogs"
         className={cn("p-2 bg-transparent flex space-x-2 items-center", {
-          "bg-muted rounded": pathname.startsWith("/blogs"),
+          "font-semibold rounded": pathname.startsWith("/blogs"),
         })}
       >
         <ScrollIcon className="w-4 h-4" />

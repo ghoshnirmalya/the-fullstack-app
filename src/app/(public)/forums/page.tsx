@@ -16,11 +16,22 @@ export default async function ForumIndexPage() {
   }
 
   return (
-    <div className="py-4 space-y-4 max-w-2xl mx-auto px-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl">Forums</h1>
+    <div className="py-4 space-y-4 max-w-6xl mx-auto px-4">
+      <div className="py-4 space-y-4 max-w-2xl mx-auto text-center h-full flex items-center">
+        <section className="py-24 space-y-4 max-w-xl mx-auto px-4">
+          <span className="rounded-full border py-2 px-4 text-sm bg-white">
+            Forums
+          </span>
+          <h1 className="text-2xl">
+            Join the conversation with other developers
+          </h1>
+          <p className="text-gray-500">
+            Join the conversation with other developers. Share your thoughts,
+            ask questions, and get help.
+          </p>
+        </section>
       </div>
-      <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
         {forums.map((forum) => {
           return <ForumCard key={forum.id} forum={forum} />;
         })}
