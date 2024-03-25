@@ -39,9 +39,6 @@ export default async function ForumShowPage({
 }: IndexPageProps) {
   return (
     <div className="p-4 space-y-4 container mx-auto">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl">Edit forum</h1>
-      </div>
       <div className="w-full">
         <ForumEditForm forumId={Number(id)} />
       </div>

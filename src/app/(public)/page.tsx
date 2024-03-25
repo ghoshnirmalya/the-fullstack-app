@@ -25,7 +25,7 @@ export default async function IndexPage() {
         <Link
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "rounded-full border",
+            "rounded-full border bg-white",
           )}
           href="https://twitter.com/NirmalyaGhosh_"
           target="_blank"
