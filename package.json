@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "private": false,
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && next build",
-    "start": "next start",
+    "dev": "infisical run --env=dev next dev",
+    "build:dev": "infisical run --env=dev prisma generate && infisical run --env=dev next build",
+    "build:prod": "infisical run --env=prod prisma generate && infisical run --env=prod next build",
+    "start": " infisical run --env=prod next start",
     "lint": "next lint",
     "types": "tsc --noEmit",
-    "prisma:studio": "npx prisma studio",
+    "prisma:studio": "prisma studio",
+    "prisma:migrate": "prisma db migrate",
+    "prisma:push": "prisma db push",
     "prepare": "husky install"
   },
   "dependencies": {
