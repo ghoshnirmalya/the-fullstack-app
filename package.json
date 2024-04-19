@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "infisical run --env=dev next dev",
     "build:dev": "infisical run --env=dev prisma generate && infisical run --env=dev next build",
-    "build:prod": "infisical run --env=prod prisma generate && infisical run --env=prod next build",
-    "start": " infisical run --env=prod next start",
+    "build:prod": "prisma generate && next build",
+    "start": "next start",
     "lint": "next lint",
     "types": "tsc --noEmit",
     "prisma:studio": "prisma studio",
