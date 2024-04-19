@@ -1,5 +1,11 @@
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Blog } from "@prisma/client";
+import { format } from "date-fns";
 import Link from "next/link";
 
 interface BlogCardProps {
@@ -12,6 +18,9 @@ export const BlogCard = ({ blog }: BlogCardProps) => {
       <Card>
         <CardHeader>
           <CardTitle>{blog.title}</CardTitle>
+          <CardDescription>
+            {format(new Date(String(blog.createdAt)), "do MMMM, yyyy")}
+          </CardDescription>
         </CardHeader>
       </Card>
     </Link>

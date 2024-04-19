@@ -21,7 +21,7 @@ export const UserDetails = ({ session }: UserDetailsProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="link">
+        <Button variant="ghost">
           <Avatar className="w-8 h-8 border">
             {session?.user?.image && (
               <AvatarImage src={session?.user?.image} width={32} height={32} />
