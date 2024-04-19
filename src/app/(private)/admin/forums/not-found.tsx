@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="p-4 space-y-4 container mx-auto h-full">
+    <div className="p-4 space-y-4 container max-w-6xl mx-auto h-full">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl">Forums</h1>
         <Link href="/admin/forums/new" className={buttonVariants({})}>
